@@ -19,7 +19,7 @@
     <!-- Rekap Harian Hari Ini -->
     <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mb-5">
       <h3 class="text-sm font-bold mb-3 flex items-center">
-        <span class="w-2 h-4 bg-blue-500 rounded-full mr-2"></span> Pengeluaran Hari Ini
+        <span class="w-2 h-4 bg-rose-600 rounded-full mr-2"></span> Pengeluaran Hari Ini
       </h3>
       <div id="rekapHariIni" class="space-y-2">
         <p class="text-gray-400 text-sm">Memuat data...</p>
@@ -35,7 +35,7 @@
     <!-- Grafik Doughnut - Kategori -->
     <div class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 mb-5">
       <h3 class="text-sm font-bold mb-4 flex items-center">
-        <span class="w-2 h-4 bg-pink-500 rounded-full mr-2"></span> Kategori Belanja Bulan Ini
+        <span class="w-2 h-4 bg-blue-500 rounded-full mr-2"></span> Kategori Belanja Bulan Ini
       </h3>
       <div class="aspect-square">
         <canvas id="pieChart"></canvas>
@@ -45,7 +45,7 @@
     <!-- Grafik Bar - 7 Hari Terakhir per Item -->
     <div class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100">
       <h3 class="text-sm font-bold mb-4 flex items-center">
-        <span class="w-2 h-4 bg-purple-500 rounded-full mr-2"></span> Top 10 Item - 7 Hari Terakhir
+        <span class="w-2 h-4 bg-sky-600 rounded-full mr-2"></span> Top 10 Item - 7 Hari Terakhir
       </h3>
       <canvas id="barChart"></canvas>
     </div>
@@ -136,7 +136,7 @@
           datasets: [{
             label: 'Pengeluaran',
             data: data.itemValues,
-            backgroundColor: 'rgba(147, 51, 234, 0.8)',
+            backgroundColor: 'rgba(2, 132, 199, 0.8)',
             borderColor: '#9333EA',
             borderWidth: 2,
             borderRadius: 8,
