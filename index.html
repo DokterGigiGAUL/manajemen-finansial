@@ -35,7 +35,7 @@
       <div class="mt-4 pt-4 border-t border-gray-100">
         <div class="flex justify-between items-center">
           <span class="text-base font-semibold text-gray-600">Total Hari Ini:</span>
-          <span id="totalHariIni" class="text-xl font-bold text-red-500">Rp. 0</span>
+          <span id="totalHariIni" class="text-xl font-bold text-red-700">Rp. 0</span>
         </div>
       </div>
     </div>
@@ -100,7 +100,7 @@
         rekapContainer.innerHTML = data.rekapHariIni.map(item => `
           <div class="flex justify-between items-center py-2 border-b border-gray-50">
             <div>
-              <p class="font-semibold text-sm text-gray-800">${item.kategori}</p>
+              <p class="font-semibold text-sm text-gray-800">${item.kategoriLabels}</p>
               <p class="text-xs text-gray-500">${item.items}</p>
             </div>
             <span class="font-bold text-red-500">Rp. ${item.nominal.toLocaleString('id-ID')}</span>
