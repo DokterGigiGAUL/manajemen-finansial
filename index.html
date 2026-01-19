@@ -26,15 +26,15 @@
 
     <!-- Rekap Harian Hari Ini -->
     <div class="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 mb-5">
-      <h3 class="text-sm font-bold mb-3 flex items-center">
-        <span class="w-2 h-4 bg-rose-600 rounded-full mr-2"></span> Pengeluaran Hari Ini
+      <h3 class="text-xl font-bold mb-3 flex items-center">
+        <span class="w-2 h-4 bg-rose-600 rounded-full mr-2 hidden"></span> Pengeluaran Hari Ini
       </h3>
       <div id="rekapHariIni" class="space-y-2">
         <p class="text-gray-400 text-sm">Memuat data...</p>
       </div>
       <div class="mt-4 pt-4 border-t border-gray-100">
         <div class="flex justify-between items-center">
-          <span class="text-sm font-semibold text-gray-600">Total Hari Ini:</span>
+          <span class="text-base font-semibold text-gray-600">Total Hari Ini:</span>
           <span id="totalHariIni" class="text-xl font-bold text-red-500">Rp. 0</span>
         </div>
       </div>
@@ -42,8 +42,8 @@
 
     <!-- Grafik Doughnut - Kategori -->
     <div class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 mb-5">
-      <h3 class="text-sm font-bold mb-4 flex items-center">
-        <span class="w-2 h-4 bg-amber-500 rounded-full mr-2"></span> Kategori Pengeluaran
+      <h3 class="text-xl font-bold mb-6 flex items-center">
+        <span class="w-2 h-4 bg-amber-500 rounded-full mr-2 hidden"></span> Kategori Pengeluaran
       </h3>
       <div class="aspect-square">
         <canvas id="pieChart"></canvas>
@@ -52,8 +52,11 @@
 
     <!-- Grafik Bar - 7 Hari Terakhir per Item -->
     <div class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100">
-      <h3 class="text-sm font-bold mb-4 flex items-center">
-        <span class="w-2 h-4 bg-sky-600 rounded-full mr-2"></span> Top 5 Pengeluaran - 7 Hari Terakhir
+      <h3 class="text-xl font-bold mb-2 flex items-center">
+        <span class="w-2 h-4 bg-sky-600 rounded-full mr-2 hidden"></span> Top 5 Pengeluaran
+      </h3>
+      <h3 class="text-base font-medium mb-4 flex items-center text-gray-500">
+        <span class="w-2 h-4 bg-sky-600 rounded-full mr-2 hidden"></span> 7 Hari Terakhir
       </h3>
       <canvas id="barChart"></canvas>
     </div>
