@@ -139,46 +139,55 @@
         }
       });
 
-      // Bar Chart - 7 Hari Terakhir per Item
-      new Chart(document.getElementById('barChart'), {
-        type: 'bar',
-        data: {
-          labels: data.itemLabels,
-          datasets: [{
-            label: 'Pengeluaran',
-            data: data.itemValues,
-            backgroundColor: 'rgba(16, 185, 129, 1)',
-            borderColor: '#16a34a',
-            borderWidth: 1,
-            borderRadius: 3,
-            barThickness: 10
-          }]
-        },
-        options: { 
-          indexAxis: 'y',
-          scales: { 
-            x: { 
-              beginAtZero: true,
-              grid: { display: true, color: '#f3f4f6' },
-              ticks: {
-                callback: function(value) {
-                  return 'Rp. ' + value.toLocaleString('id-ID');
-                },
-                font: { size: 10 }
-              }
-            },
-            y: { 
-              grid: { display: false },
-              ticks: {
-                font: { size: 10 }
-              }
-            }
+// Bar Chart - 7 Hari Terakhir per Item
+new Chart(document.getElementById('barChart'), {
+  type: 'bar',
+  data: {
+    // MODIFIKASI: Menggabungkan Kategori dan Nama Item untuk label sumbu Y
+    labels: data.itemLabels.map((item, index) => {
+      const kategori = data.itemKategori ? data.itemKategori[index] : '';
+      return kategori ? `${kategori}: ${item}` : item;
+    }),
+    datasets: [{
+      label: 'Pengeluaran',
+      data: data.itemValues,
+      backgroundColor: 'rgba(16, 185, 129, 1)',
+      borderColor: '#16a34a',
+      borderWidth: 1,
+      borderRadius: 3,
+      barThickness: 10
+    }]
+  },
+  options: { 
+    indexAxis: 'y',
+    scales: { 
+      x: { 
+        beginAtZero: true,
+        grid: { display: true, color: '#f3f4f6' },
+        ticks: {
+          callback: function(value) {
+            return 'Rp. ' + value.toLocaleString('id-ID');
           },
-          plugins: {
-            legend: { display: false }
+          font: { size: 10 }
+        }
+      },
+      y: { 
+        grid: { display: false },
+        ticks: {
+          font: { size: 10 },
+          // Opsional: Memotong teks jika terlalu panjang agar tidak merusak layout
+          callback: function(value) {
+            const label = this.getLabelForValue(value);
+            return label.length > 20 ? label.substr(0, 20) + '...' : label;
           }
         }
-      });
+      }
+    },
+    plugins: {
+      legend: { display: false }
+    }
+  }
+});
     }
   </script>
 </body>
