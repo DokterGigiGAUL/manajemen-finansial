@@ -139,42 +139,54 @@
         }
       });
 
-// Bar Chart - 7 Hari Terakhir per Item [cite: 201]
-new Chart(document.getElementById('barChart'), {
-  type: 'bar',
-  data: {
-    // Gunakan pengecekan (if/ternary) agar jika data kategori kosong, chart tidak error
-    labels: data.itemLabels.map((item, index) => {
-      const kat = (data.itemKategori && data.itemKategori[index]) ? data.itemKategori[index] : '';
-      return kat ? kat + ': ' + item : item;
-    }),
-    datasets: [{
-      label: 'Pengeluaran',
-      data: data.itemValues,
-      backgroundColor: 'rgba(16, 185, 129, 1)',
-      borderColor: '#16a34a',
-      borderWidth: 1,
-      borderRadius: 3,
-      barThickness: 10
-    }]
-  },
-  options: { 
-    indexAxis: 'y',
-    scales: { 
-      x: { 
-        beginAtZero: true,
-        ticks: {
-          callback: function(value) { return 'Rp. ' + value.toLocaleString('id-ID'); },
-          font: { size: 10 }
+// Bar Chart - Top 5 Pengeluaran Bertumpuk
+      new Chart(document.getElementById('barChart'), {
+        type: 'bar',
+        data: {
+          // MODIFIKASI: Membuat array bertumpuk [Kategori, Item]
+          labels: data.itemLabels.map((item, index) => {
+            const kat = data.itemKategori[index] || '';
+            return [kat, item]; // Chart.js akan menampilkan ini secara bertumpuk
+          }),
+          datasets: [{
+            label: 'Pengeluaran',
+            data: data.itemValues,
+            backgroundColor: 'rgba(16, 185, 129, 1)',
+            borderColor: '#16a34a',
+            borderWidth: 1,
+            borderRadius: 3,
+            barThickness: 12 // Sedikit dipertebal karena label lebih tinggi
+          }]
+        },
+        options: { 
+          indexAxis: 'y',
+          scales: { 
+            x: { 
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return 'Rp. ' + value.toLocaleString('id-ID');
+                },
+                font: { size: 10 }
+              }
+            },
+            y: { 
+              grid: { display: false },
+              ticks: {
+                autoSkip: false,
+                font: { 
+                  size: 10,
+                  weight: 'bold' // Agar kategori/item lebih jelas terbaca
+                },
+                padding: 10
+              }
+            }
+          },
+          plugins: {
+            legend: { display: false }
+          }
         }
-      },
-      y: { 
-        ticks: { font: { size: 10 } }
-      }
-    },
-    plugins: { legend: { display: false } }
-  }
-});
+      });
     }
   </script>
 </body>
