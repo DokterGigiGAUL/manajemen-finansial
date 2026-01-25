@@ -139,15 +139,14 @@
         }
       });
 
-// Bar Chart - 7 Hari Terakhir per Item
+// Bar Chart - 7 Hari Terakhir per Item [cite: 201]
 new Chart(document.getElementById('barChart'), {
   type: 'bar',
   data: {
-    // MODIFIKASI: Menggabungkan Kategori dan Item untuk sumbu Y
+    // Gunakan pengecekan (if/ternary) agar jika data kategori kosong, chart tidak error
     labels: data.itemLabels.map((item, index) => {
-      const kategori = data.itemKategori ? data.itemKategori[index] '';
-      // Menampilkan format "Kategori: Item"
-      return kategori ? `${kategori}: ${item}` item;
+      const kat = (data.itemKategori && data.itemKategori[index]) ? data.itemKategori[index] : '';
+      return kat ? kat + ': ' + item : item;
     }),
     datasets: [{
       label: 'Pengeluaran',
@@ -164,29 +163,16 @@ new Chart(document.getElementById('barChart'), {
     scales: { 
       x: { 
         beginAtZero: true,
-        grid: { display: true, color: '#f3f4f6' },
         ticks: {
-          callback: function(value) {
-            return 'Rp. ' + value.toLocaleString('id-ID');
-          },
+          callback: function(value) { return 'Rp. ' + value.toLocaleString('id-ID'); },
           font: { size: 10 }
         }
       },
       y: { 
-        grid: { display: false },
-        ticks: {
-          font: { size: 9 }, // Ukuran font sedikit dikecilkan karena teks lebih panjang
-          // Opsional: Memotong teks jika terlalu panjang agar tidak merusak layout
-          callback: function(value) {
-            const label = this.getLabelForValue(value);
-            return label.length > 20 ? label.substr(0, 20) + '...' : label;
-          }
-        }
+        ticks: { font: { size: 10 } }
       }
     },
-    plugins: {
-      legend: { display: false }
-    }
+    plugins: { legend: { display: false } }
   }
 });
     }
