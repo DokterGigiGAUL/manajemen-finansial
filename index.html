@@ -145,8 +145,8 @@ new Chart(document.getElementById('barChart'), {
   data: {
     // MODIFIKASI: Menggabungkan Kategori dan Nama Item untuk label sumbu Y
     labels: data.itemLabels.map((item, index) => {
-      const kategori = data.itemKategori ? data.itemKategori[index] : '';
-      return kategori ? `${kategori}: ${item}` : item;
+      const kategori = data.itemKategori ? data.itemKategori[index] '';
+      return kategori ? `${kategori}: ${item}` item;
     }),
     datasets: [{
       label: 'Pengeluaran',
