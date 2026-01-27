@@ -74,72 +74,72 @@
   </div>
 
 <script>
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbym_nljEPd8FkHu9xwBAV2DXTU4H7qR4WtDpm8IdwqFatBQ25DH2nGgRvluzjQHeADXdA/exec"; // PASTIKAN URL INI BENAR
+    // 1. KONFIGURASI - PASTIKAN URL INI BENAR
+    const GAS_URL = "URL_WEB_APP_GAS_ANDA"; 
     const tg = window.Telegram.WebApp;
     tg.expand();
 
-    // 1. VARIABEL GLOBAL
+    // 2. STATE MANAGEMENT
     let chartData = null; 
     let currentPieChart = null;
 
-    // 2. FUNGSI AMBIL DATA
+    // 3. FUNGSI UTAMA AMBIL DATA
     async function fetchData() {
       showLoading(true);
       try {
         const response = await fetch(GAS_URL + '?action=getData');
         const data = await response.json();
         
-        chartData = data; // Simpan ke global agar bisa diakses switchTab
+        // Simpan ke global agar bisa diakses fungsi lain
+        chartData = data; 
 
-        if (data) {
-          updateSummary(data); // Menampilkan Saldo
-          drawCharts(data);    // Menggambar Grafik
-          renderRekap(data.rekapHariIni); // Menampilkan List Rekap
-        }
+        // Tampilkan Saldo (URUTAN PERTAMA AGAR SALDO MUNCUL DULU)
+        updateSummary(data); 
+        
+        // Gambar Grafik (URUTAN KEDUA)
+        drawCharts(data);    
+        
+        // Rekap (URUTAN KETIGA)
+        renderRekap(data.rekapHariIni);
+
       } catch (error) {
-        console.error('Error:', error);
-        tg.showAlert("Gagal memuat data dari server");
+        console.error('Fatal Error:', error);
+        // Tampilkan error langsung di layar jika saldo tidak muncul
+        const errorDiv = document.createElement('div');
+        errorDiv.className = "bg-red-100 text-red-700 p-4 rounded-xl m-4 text-xs font-mono";
+        errorDiv.innerHTML = "<b>Sistem Error:</b> " + error.message;
+        document.body.prepend(errorDiv);
       } finally {
         showLoading(false);
       }
     }
 
-    // 3. FUNGSI UPDATE SALDO/SUMMARY
     function updateSummary(data) {
-      document.getElementById('totalBulanIni').textContent = 'Rp. ' + (data.totalBulanIni || 0).toLocaleString('id-ID');
-      document.getElementById('totalHariIni').textContent = 'Rp. ' + (data.totalHariIni || 0).toLocaleString('id-ID');
-      const skrg = new Date();
-      const opsi = { month: 'long', year: 'numeric' };
-      document.getElementById('namaBulan').textContent = skrg.toLocaleDateString('id-ID', opsi);
-    }
+      if (!data) return;
+      const elBulan = document.getElementById('totalBulanIni');
+      const elHari = document.getElementById('totalHariIni');
+      const elNamaBulan = document.getElementById('namaBulan');
 
-    // 4. FUNGSI SWITCH TAB (PENGELUARAN/PEMASUKAN)
-    function switchTab(type) {
-      if (!chartData) return;
-      const btnKeluar = document.getElementById('tabPengeluaran');
-      const btnMasuk = document.getElementById('tabPemasukan');
+      if (elBulan) elBulan.textContent = 'Rp. ' + (data.totalBulanIni || 0).toLocaleString('id-ID');
+      if (elHari) elHari.textContent = 'Rp. ' + (data.totalHariIni || 0).toLocaleString('id-ID');
       
-      if (type === 'pengeluaran') {
-        btnKeluar.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-rose-600 text-rose-600 transition-all";
-        btnMasuk.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 transition-all";
-        updatePieChart(chartData.kategoriLabels, chartData.kategoriValues, '#F43F5E');
-      } else {
-        btnKeluar.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 transition-all";
-        btnMasuk.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-sky-600 text-sky-600";
-        updatePieChart(chartData.pemasukanLabels, chartData.pemasukanValues, '#0284C7');
-      }
+      const skrg = new Date();
+      if (elNamaBulan) elNamaBulan.textContent = skrg.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
     }
 
-    // 5. FUNGSI GAMBAR/UPDATE PIE CHART
     function updatePieChart(labels, values, color) {
+      const canvas = document.getElementById('pieChart');
+      if (!canvas) return;
+      
       if (currentPieChart) currentPieChart.destroy();
-      const ctx = document.getElementById('pieChart').getContext('2d');
+      
+      const ctx = canvas.getContext('2d');
       currentPieChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: labels,
+          labels: labels || [],
           datasets: [{
-            data: values,
+            data: values || [],
             backgroundColor: [color, '#FB923C', '#FBBF24', '#34D399', '#60A5FA', '#A78BFA'],
             borderWidth: 3,
             borderColor: '#fff'
@@ -156,20 +156,38 @@
       });
     }
 
-    // 6. FUNGSI UTAMA GAMBAR SEMUA CHART
+    function switchTab(type) {
+      if (!chartData) return;
+      
+      const btnKeluar = document.getElementById('tabPengeluaran');
+      const btnMasuk = document.getElementById('tabPemasukan');
+      
+      if (type === 'pengeluaran') {
+        btnKeluar.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-rose-600 text-rose-600 transition-all";
+        btnMasuk.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 transition-all";
+        updatePieChart(chartData.kategoriLabels, chartData.kategoriValues, '#F43F5E');
+      } else {
+        btnKeluar.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 transition-all";
+        btnMasuk.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-sky-600 text-sky-600";
+        updatePieChart(chartData.pemasukanLabels, chartData.pemasukanValues, '#0284C7');
+      }
+    }
+
     function drawCharts(data) {
-      // Gambar Pie Chart Pertama Kali
+      // Inisialisasi awal Pie Chart (Pengeluaran)
       updatePieChart(data.kategoriLabels, data.kategoriValues, '#F43F5E');
 
-      // Gambar Bar Chart Top 5
-      const ctxBar = document.getElementById('barChart').getContext('2d');
-      new Chart(ctxBar, {
+      // Bar Chart - Top 5
+      const canvasBar = document.getElementById('barChart');
+      if (!canvasBar) return;
+
+      new Chart(canvasBar.getContext('2d'), {
         type: 'bar',
         data: {
-          labels: data.itemLabels.map((item, index) => [data.itemKategori[index] || '', item]),
+          labels: (data.itemLabels || []).map((item, index) => [data.itemKategori[index] || '', item]),
           datasets: [{
             label: 'Nominal',
-            data: data.itemValues,
+            data: data.itemValues || [],
             backgroundColor: 'rgba(16, 185, 129, 1)',
             borderRadius: 5,
             barThickness: 10
@@ -183,10 +201,7 @@
             x: { display: false },
             y: {
               grid: { display: false },
-              ticks: {
-                padding: 10,
-                font: { size: 10, weight: '600', lineHeight: 0.7 }
-              }
+              ticks: { padding: 10, font: { size: 10, weight: '600', lineHeight: 0.7 } }
             }
           },
           plugins: { legend: { display: false } }
@@ -194,16 +209,18 @@
       });
     }
 
-    // 7. FUNGSI PEMBANTU LAINNYA
     function showLoading(show) {
-      document.getElementById('loading').style.display = show ? 'flex' : 'none';
-      document.getElementById('mainContent').style.display = show ? 'none' : 'block';
+      const l = document.getElementById('loading');
+      const m = document.getElementById('mainContent');
+      if (l) l.style.display = show ? 'flex' : 'none';
+      if (m) m.style.display = show ? 'none' : 'block';
     }
 
     function renderRekap(rekap) {
       const container = document.getElementById('rekapHariIni');
+      if (!container) return;
       if(!rekap || rekap.length === 0) {
-        container.innerHTML = '<p class="text-center text-gray-400 text-sm">Tidak ada transaksi hari ini</p>';
+        container.innerHTML = '<p class="text-center text-gray-400 text-sm py-4">Tidak ada transaksi hari ini</p>';
         return;
       }
       container.innerHTML = rekap.map(item => `
@@ -217,7 +234,7 @@
       `).join('');
     }
 
-    // JALANKAN PERTAMA KALI
+    // Jalankan eksekusi
     fetchData();
 </script>
 </body>
