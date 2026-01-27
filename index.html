@@ -41,7 +41,7 @@
       </div>-->
     </div>
 
-    <!-- Grafik Doughnut - Kategori -->
+    <!-- Grafik Doughnut - Kategori 
     <div class="bg-white rounded-3xl p-5 border-white mb-5">
       <p class="text-xs font-light uppercase tracking-widest mb-1 text-left">Statistik</p>
       <h3 class="text-xl font-bold mb-6 flex items-center">
@@ -50,7 +50,21 @@
       <div class="aspect-square">
         <canvas id="pieChart"></canvas>
       </div>
-    </div>
+    </div>-->
+    <div class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 mb-5">
+  <div class="flex border-b border-gray-100 mb-6">
+    <button id="tabPengeluaran" onclick="switchTab('pengeluaran')" class="flex-1 pb-3 text-sm font-bold border-b-2 border-rose-600 text-rose-600 transition-all">
+      Pengeluaran
+    </button>
+    <button id="tabPemasukan" onclick="switchTab('pemasukan')" class="flex-1 pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 transition-all">
+      Pemasukan
+    </button>
+  </div>
+  
+  <div class="aspect-square relative">
+    <canvas id="pieChart"></canvas>
+  </div>
+</div>
 
     <!-- Grafik Bar - 7 Hari Terakhir per Item -->
     <div class="bg-white rounded-3xl p-5 border border-white">
@@ -74,7 +88,9 @@
 
     // URL Google Apps Script Web App Anda
     const GAS_URL = 'https://script.google.com/macros/s/AKfycbym_nljEPd8FkHu9xwBAV2DXTU4H7qR4WtDpm8IdwqFatBQ25DH2nGgRvluzjQHeADXdA/exec';
-
+    let chartData = null;
+    let currentPieChart = null;
+    
     window.onload = function() {
       fetchData();
     };
@@ -90,6 +106,45 @@
       }
     }
 
+  function switchTab(type) {
+  const btnKeluar = document.getElementById('tabPengeluaran');
+  const btnMasuk = document.getElementById('tabPemasukan');
+  
+  if (type === 'pengeluaran') {
+    btnKeluar.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-rose-600 text-rose-600";
+    btnMasuk.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400";
+    updatePieChart(chartData.kategoriLabels, chartData.kategoriValues, '#F43F5E'); // Warna merah
+  } else {
+    btnKeluar.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400";
+    btnMasuk.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-sky-600 text-sky-600";
+    // Pastikan GAS mengirim data kategoriPemasukanLabels dan kategoriPemasukanValues
+    updatePieChart(chartData.pemasukanLabels || [], chartData.pemasukanValues || [], '#0284C7'); // Warna biru
+  }
+}
+   function updatePieChart(labels, values, themeColor) {
+  if (currentPieChart) currentPieChart.destroy();
+  
+  const ctx = document.getElementById('pieChart').getContext('2d');
+  currentPieChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: values,
+        backgroundColor: [themeColor, '#FB923C', '#FBBF24', '#34D399', '#60A5FA', '#A78BFA'],
+        borderWidth: 3,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      cutout: '65%',
+      plugins: {
+        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, font: { size: 11 } } }
+      }
+    }
+  });
+}
+    
     function drawCharts(data) {
       const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
       const currentMonth = new Date().getMonth();
