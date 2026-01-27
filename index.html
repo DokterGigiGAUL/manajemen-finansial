@@ -80,40 +80,49 @@
     </div>
   </div>
 
- <script>
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbym_nljEPd8FkHu9xwBAV2DXTU4H7qR4WtDpm8IdwqFatBQ25DH2nGgRvluzjQHeADXdA/exec"; // Ganti dengan URL Deployment Anda
+<script>
+    const GAS_URL = "URL_WEB_APP_GAS_ANDA"; // PASTIKAN URL INI BENAR
     const tg = window.Telegram.WebApp;
     tg.expand();
 
-    // VARIABEL GLOBAL (Sangat Penting)
+    // 1. VARIABEL GLOBAL
     let chartData = null; 
     let currentPieChart = null;
 
+    // 2. FUNGSI AMBIL DATA
     async function fetchData() {
       showLoading(true);
       try {
         const response = await fetch(GAS_URL + '?action=getData');
         const data = await response.json();
         
-        // ISI VARIABEL GLOBAL DISINI
-        chartData = data; 
+        chartData = data; // Simpan ke global agar bisa diakses switchTab
 
         if (data) {
-          drawCharts(data);
-          updateSummary(data);
-          renderRekap(data.rekapHariIni);
+          updateSummary(data); // Menampilkan Saldo
+          drawCharts(data);    // Menggambar Grafik
+          renderRekap(data.rekapHariIni); // Menampilkan List Rekap
         }
       } catch (error) {
         console.error('Error:', error);
+        tg.showAlert("Gagal memuat data dari server");
       } finally {
         showLoading(false);
       }
     }
 
-    // FUNGSI UNTUK PINDAH TAB
-    function switchTab(type) {
-      if (!chartData) return; // Mencegah error jika data belum siap
+    // 3. FUNGSI UPDATE SALDO/SUMMARY
+    function updateSummary(data) {
+      document.getElementById('totalBulanIni').textContent = 'Rp. ' + (data.totalBulanIni || 0).toLocaleString('id-ID');
+      document.getElementById('totalHariIni').textContent = 'Rp. ' + (data.totalHariIni || 0).toLocaleString('id-ID');
+      const skrg = new Date();
+      const opsi = { month: 'long', year: 'numeric' };
+      document.getElementById('namaBulan').textContent = skrg.toLocaleDateString('id-ID', opsi);
+    }
 
+    // 4. FUNGSI SWITCH TAB (PENGELUARAN/PEMASUKAN)
+    function switchTab(type) {
+      if (!chartData) return;
       const btnKeluar = document.getElementById('tabPengeluaran');
       const btnMasuk = document.getElementById('tabPemasukan');
       
@@ -128,10 +137,9 @@
       }
     }
 
-    // FUNGSI UNTUK UPDATE PIE CHART SAJA
+    // 5. FUNGSI GAMBAR/UPDATE PIE CHART
     function updatePieChart(labels, values, color) {
       if (currentPieChart) currentPieChart.destroy();
-      
       const ctx = document.getElementById('pieChart').getContext('2d');
       currentPieChart = new Chart(ctx, {
         type: 'doughnut',
@@ -155,21 +163,23 @@
       });
     }
 
+    // 6. FUNGSI UTAMA GAMBAR SEMUA CHART
     function drawCharts(data) {
-      // Panggil updatePieChart pertama kali untuk Pengeluaran
+      // Gambar Pie Chart Pertama Kali
       updatePieChart(data.kategoriLabels, data.kategoriValues, '#F43F5E');
 
-      // Bar Chart - Top 5
-      new Chart(document.getElementById('barChart'), {
+      // Gambar Bar Chart Top 5
+      const ctxBar = document.getElementById('barChart').getContext('2d');
+      new Chart(ctxBar, {
         type: 'bar',
         data: {
-          labels: data.itemLabels.map((item, index) => [data.itemKategori[index], item]),
+          labels: data.itemLabels.map((item, index) => [data.itemKategori[index] || '', item]),
           datasets: [{
             label: 'Nominal',
             data: data.itemValues,
             backgroundColor: 'rgba(16, 185, 129, 1)',
             borderRadius: 5,
-            barThickness: 12
+            barThickness: 10
           }]
         },
         options: {
@@ -191,22 +201,18 @@
       });
     }
 
-    // Fungsi pembantu lainnya (showLoading, updateSummary, dll) tetap sama...
+    // 7. FUNGSI PEMBANTU LAINNYA
     function showLoading(show) {
       document.getElementById('loading').style.display = show ? 'flex' : 'none';
       document.getElementById('mainContent').style.display = show ? 'none' : 'block';
     }
 
-    function updateSummary(data) {
-      document.getElementById('totalBulanIni').textContent = 'Rp. ' + data.totalBulanIni.toLocaleString('id-ID');
-      document.getElementById('totalHariIni').textContent = 'Rp. ' + data.totalHariIni.toLocaleString('id-ID');
-      const skrg = new Date();
-      const opsi = { month: 'long', year: 'numeric' };
-      document.getElementById('namaBulan').textContent = skrg.toLocaleDateString('id-ID', opsi);
-    }
-
     function renderRekap(rekap) {
       const container = document.getElementById('rekapHariIni');
+      if(!rekap || rekap.length === 0) {
+        container.innerHTML = '<p class="text-center text-gray-400 text-sm">Tidak ada transaksi hari ini</p>';
+        return;
+      }
       container.innerHTML = rekap.map(item => `
         <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl mb-3 border border-gray-100">
           <div>
@@ -218,6 +224,7 @@
       `).join('');
     }
 
+    // JALANKAN PERTAMA KALI
     fetchData();
 </script>
 </body>
