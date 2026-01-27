@@ -73,42 +73,49 @@
     </div>
   </div>
 
-<script>
-    // 1. KONFIGURASI - PASTIKAN URL INI BENAR
+    <script>
     const GAS_URL = "https://script.google.com/macros/s/AKfycbym_nljEPd8FkHu9xwBAV2DXTU4H7qR4WtDpm8IdwqFatBQ25DH2nGgRvluzjQHeADXdA/exec"; 
     const tg = window.Telegram.WebApp;
     tg.expand();
 
-    // 2. STATE MANAGEMENT
     let chartData = null; 
     let currentPieChart = null;
+    let currentBarChart = null; // Tambahkan ini untuk tracking bar chart
 
-    // 3. FUNGSI UTAMA AMBIL DATA
     async function fetchData() {
       showLoading(true);
       try {
         const response = await fetch(GAS_URL + '?action=getData');
-        const data = await response.json();
+        const text = await response.text(); // Ambil teks mentah dulu
         
-        // Simpan ke global agar bisa diakses fungsi lain
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (e) {
+          throw new Error("Format data dari GAS salah/error. Cek URL Deployment Anda.");
+        }
+        
         chartData = data; 
 
-        // Tampilkan Saldo (URUTAN PERTAMA AGAR SALDO MUNCUL DULU)
+        // TAMPILKAN SALDO DULU (Prioritas Utama)
         updateSummary(data); 
         
-        // Gambar Grafik (URUTAN KEDUA)
-        drawCharts(data);    
-        
-        // Rekap (URUTAN KETIGA)
+        // TAMPILKAN REKAP LIST
         renderRekap(data.rekapHariIni);
+
+        // BARU GAMBAR GRAFIK (Gunakan setTimeout agar DOM benar-benar siap)
+        setTimeout(() => {
+          try {
+            drawCharts(data);
+          } catch (chartError) {
+            console.error("Grafik gagal:", chartError);
+            // Tetap lanjut meskipun grafik gagal agar saldo tidak hilang
+          }
+        }, 100);
 
       } catch (error) {
         console.error('Fatal Error:', error);
-        // Tampilkan error langsung di layar jika saldo tidak muncul
-        const errorDiv = document.createElement('div');
-        errorDiv.className = "bg-red-100 text-red-700 p-4 rounded-xl m-4 text-xs font-mono";
-        errorDiv.innerHTML = "<b>Sistem Error:</b> " + error.message;
-        document.body.prepend(errorDiv);
+        showSystemError(error.message);
       } finally {
         showLoading(false);
       }
@@ -116,15 +123,16 @@
 
     function updateSummary(data) {
       if (!data) return;
+      // Gunakan innerText untuk keamanan
       const elBulan = document.getElementById('totalBulanIni');
       const elHari = document.getElementById('totalHariIni');
       const elNamaBulan = document.getElementById('namaBulan');
 
-      if (elBulan) elBulan.textContent = 'Rp. ' + (data.totalBulanIni || 0).toLocaleString('id-ID');
-      if (elHari) elHari.textContent = 'Rp. ' + (data.totalHariIni || 0).toLocaleString('id-ID');
+      if (elBulan) elBulan.innerText = 'Rp. ' + (data.totalBulanIni || 0).toLocaleString('id-ID');
+      if (elHari) elHari.innerText = 'Rp. ' + (data.totalHariIni || 0).toLocaleString('id-ID');
       
       const skrg = new Date();
-      if (elNamaBulan) elNamaBulan.textContent = skrg.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+      if (elNamaBulan) elNamaBulan.innerText = skrg.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
     }
 
     function updatePieChart(labels, values, color) {
@@ -133,8 +141,7 @@
       
       if (currentPieChart) currentPieChart.destroy();
       
-      const ctx = canvas.getContext('2d');
-      currentPieChart = new Chart(ctx, {
+      currentPieChart = new Chart(canvas.getContext('2d'), {
         type: 'doughnut',
         data: {
           labels: labels || [],
@@ -174,14 +181,14 @@
     }
 
     function drawCharts(data) {
-      // Inisialisasi awal Pie Chart (Pengeluaran)
       updatePieChart(data.kategoriLabels, data.kategoriValues, '#F43F5E');
 
-      // Bar Chart - Top 5
       const canvasBar = document.getElementById('barChart');
       if (!canvasBar) return;
+      
+      if (currentBarChart) currentBarChart.destroy();
 
-      new Chart(canvasBar.getContext('2d'), {
+      currentBarChart = new Chart(canvasBar.getContext('2d'), {
         type: 'bar',
         data: {
           labels: (data.itemLabels || []).map((item, index) => [data.itemKategori[index] || '', item]),
@@ -209,13 +216,6 @@
       });
     }
 
-    function showLoading(show) {
-      const l = document.getElementById('loading');
-      const m = document.getElementById('mainContent');
-      if (l) l.style.display = show ? 'flex' : 'none';
-      if (m) m.style.display = show ? 'none' : 'block';
-    }
-
     function renderRekap(rekap) {
       const container = document.getElementById('rekapHariIni');
       if (!container) return;
@@ -234,7 +234,20 @@
       `).join('');
     }
 
-    // Jalankan eksekusi
+    function showLoading(show) {
+      const l = document.getElementById('loading');
+      const m = document.getElementById('mainContent');
+      if (l) l.style.display = show ? 'flex' : 'none';
+      if (m) m.style.display = show ? 'none' : 'block';
+    }
+
+    function showSystemError(msg) {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = "bg-red-600 text-white p-4 rounded-xl m-4 text-xs font-mono fixed top-0 left-0 right-0 z-[9999]";
+      errorDiv.innerHTML = "<b>Sistem Error:</b> " + msg;
+      document.body.prepend(errorDiv);
+    }
+
     fetchData();
 </script>
 </body>
