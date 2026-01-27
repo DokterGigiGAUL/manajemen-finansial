@@ -170,12 +170,12 @@
       const btnMasuk = document.getElementById('tabPemasukan');
       
       if (type === 'pengeluaran') {
-        btnKeluar.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-rose-600 text-rose-600 transition-all";
-        btnMasuk.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 transition-all";
+        btnKeluar.className = "flex-1 pb-3 text-lg font-bold border-b-2 border-rose-600 text-rose-600 transition-all";
+        btnMasuk.className = "flex-1 pb-3 text-lg font-bold border-b-2 border-transparent text-gray-400 transition-all";
         updatePieChart(chartData.kategoriLabels, chartData.kategoriValues, '#F43F5E');
       } else {
-        btnKeluar.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 transition-all";
-        btnMasuk.className = "flex-1 pb-3 text-sm font-bold border-b-2 border-green-600 text-green-600";
+        btnKeluar.className = "flex-1 pb-3 text-lg font-bold border-b-2 border-transparent text-gray-400 transition-all";
+        btnMasuk.className = "flex-1 pb-3 text-lg font-bold border-b-2 border-green-600 text-green-600";
         updatePieChart(chartData.pemasukanLabels, chartData.pemasukanValues, '#0284C7');
       }
     }
@@ -208,7 +208,7 @@
             x: { display: false },
             y: {
               grid: { display: false },
-              ticks: { padding: 10, font: { size: 10, weight: '400', lineHeight: 1 } }
+              ticks: { padding: 10, font: { size: 10, weight: '400', lineHeight: 1.25 } }
             }
           },
           plugins: { legend: { display: false } }
