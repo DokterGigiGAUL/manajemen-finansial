@@ -148,7 +148,7 @@
           datasets: [{
             data: values || [],
             backgroundColor: [color, '#FB923C', '#FBBF24', '#34D399', '#60A5FA', '#A78BFA'],
-            borderWidth: 3,
+            borderWidth: 1,
             borderColor: '#fff'
           }]
         },
@@ -226,10 +226,10 @@
       container.innerHTML = rekap.map(item => `
         <div class="flex items-center justify-between pt-2 pb-2 bg-white mb-2 mt-2">
           <div>
-            <p class="font-bold text-gray-900">${item.kategori}</p>
+            <p class="font-normal text-gray-900">${item.kategori}</p>
             <p class="text-xs text-gray-500">${item.items}</p>
           </div>
-          <p class="font-bold text-gray-900 text-right">Rp. ${item.nominal.toLocaleString('id-ID')}</p>
+          <p class="font-normal text-gray-900 text-right">Rp. ${item.nominal.toLocaleString('id-ID')}</p>
         </div>
       `).join('');
     }
