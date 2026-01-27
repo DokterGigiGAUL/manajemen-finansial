@@ -22,7 +22,7 @@
       <h3 class="text-xl font-bold mb-3 flex items-center">
         <span class="w-2 h-4 bg-red-500 rounded-full mr-2 hidden"></span> Pengeluaran Hari Ini
       </h3>
-        <span id="totalHariIni" class="text-2xl font-bold text-red-500 mb-2">Rp. 0</span>
+        <span id="totalHariIni" class="text-2xl font-bold text-gray-900 mb-2">Rp. 0</span>
       <div id="rekapHariIni" class="-space-y-2">
         <p class="text-gray-400 text-sm">Memuat data...</p>
       </div>
@@ -54,7 +54,7 @@
     </button>
   </div>
   
-  <div class="aspect-[1/2] relative w-full">
+  <div class="aspect-[2/3] relative w-full">
     <canvas id="pieChart"></canvas>
   </div>
 </div>
@@ -229,7 +229,7 @@
             <p class="font-bold text-gray-900">${item.kategori}</p>
             <p class="text-xs text-gray-500">${item.items}</p>
           </div>
-          <p class="font-bold text-black text-right">Rp. ${item.nominal.toLocaleString('id-ID')}</p>
+          <p class="font-bold text-rose-600 text-right">Rp. ${item.nominal.toLocaleString('id-ID')}</p>
         </div>
       `).join('');
     }
