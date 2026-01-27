@@ -197,7 +197,7 @@
             data: data.itemValues || [],
             backgroundColor: 'rgba(16, 185, 129, 1)',
             borderRadius: 5,
-            barThickness: 10
+            barThickness: 12
           }]
         },
         options: {
@@ -208,7 +208,7 @@
             x: { display: false },
             y: {
               grid: { display: false },
-              ticks: { padding: 10, font: { size: 10, weight: '600', lineHeight: 0.7 } }
+              ticks: { padding: 10, font: { size: 10, weight: '600', lineHeight: 0.8 } }
             }
           },
           plugins: { legend: { display: false } }
@@ -224,7 +224,7 @@
         return;
       }
       container.innerHTML = rekap.map(item => `
-        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl mb-3 border border-gray-100">
+        <div class="flex items-center justify-between pt-2 pb-2 bg-white rounded-2xl mb-2 mt-2 border border-gray-100">
           <div>
             <p class="font-bold text-gray-900">${item.kategori}</p>
             <p class="text-xs text-gray-500">${item.items}</p>
