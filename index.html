@@ -33,7 +33,43 @@
         </div>
       </div>-->
     </div>
-
+<div class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 mb-5">
+  <div class="flex items-center justify-between mb-4">
+    <h3 class="text-lg font-bold text-gray-800">Monthly Breakdown</h3>
+    <div class="flex space-x-2">
+      <button onclick="changeMonth(-1)" class="p-1.5 bg-gray-100 rounded-full hover:bg-gray-200 transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+      </button>
+      <button onclick="changeMonth(1)" class="p-1.5 bg-gray-100 rounded-full hover:bg-gray-200 transition">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+      </button>
+    </div>
+  </div>
+<!-- Breaout Doughnut-->
+  <div class="space-y-3">
+    <div>
+      <div class="flex justify-between text-xs mb-1">
+        <span class="text-sky-600 font-bold uppercase">Pemasukan</span>
+        <span id="breakdownInText" class="font-bold">Rp. 0</span>
+      </div>
+      <div class="w-full bg-gray-100 rounded-full h-2">
+        <div id="breakdownInBar" class="bg-sky-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+      </div>
+    </div>
+    <div>
+      <div class="flex justify-between text-xs mb-1">
+        <span class="text-rose-600 font-bold uppercase">Pengeluaran</span>
+        <span id="breakdownOutText" class="font-bold">Rp. 0</span>
+      </div>
+      <div class="w-full bg-gray-100 rounded-full h-2">
+        <div id="breakdownOutBar" class="bg-rose-500 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+  
+  <p id="monthLabel" class="text-center text-[10px] text-gray-400 mt-4 font-medium uppercase tracking-widest">Januari 2026</p>
+</div>
+    
     <!-- Grafik Doughnut - Kategori 
     <div class="bg-white rounded-3xl p-5 border-white mb-5">
       <p class="text-xs font-light uppercase tracking-widest mb-1 text-left">Statistik</p>
@@ -254,6 +290,54 @@
     }
 
     fetchData();
+
+      let currentViewDate = new Date();
+
+// Modifikasi fungsi fetchData yang sudah ada
+async function fetchData() {
+    showLoading(true);
+    const m = currentViewDate.getMonth() + 1;
+    const y = currentViewDate.getFullYear();
+    
+    try {
+        // Tambahkan parameter bulan dan tahun ke URL
+        const response = await fetch(`${GAS_URL}?action=getData&month=${m}&year=${y}`);
+        const data = await response.json();
+        chartData = data;
+
+        // Update bagian Saldo & Grafik lama
+        updateSummary(data);
+        drawCharts(data);
+        renderRekap(data.rekapHariIni);
+
+        // UPDATE BAGIAN BARU: Monthly Breakdown
+        updateMonthlyBreakdown(data);
+        
+    } catch (error) {
+        console.error(error);
+    } finally {
+        showLoading(false);
+    }
+}
+
+function updateMonthlyBreakdown(data) {
+    const inc = data.monthlyIncome || 0;
+    const exp = data.monthlyExpense || 0;
+    const max = Math.max(inc, exp) || 1; // Mencegah pembagian nol
+
+    document.getElementById('breakdownInText').innerText = 'Rp. ' + inc.toLocaleString('id-ID');
+    document.getElementById('breakdownOutText').innerText = 'Rp. ' + exp.toLocaleString('id-ID');
+    document.getElementById('monthLabel').innerText = data.currentMonthName + " " + data.targetYear;
+
+    // Set lebar bar secara proporsional
+    document.getElementById('breakdownInBar').style.width = (inc / max * 100) + '%';
+    document.getElementById('breakdownOutBar').style.width = (exp / max * 100) + '%';
+}
+
+function changeMonth(offset) {
+    currentViewDate.setMonth(currentViewDate.getMonth() + offset);
+    fetchData(); // Refresh data berdasarkan bulan baru
+}
 </script>
 </body>
 </html>
