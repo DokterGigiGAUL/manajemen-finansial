@@ -9,62 +9,63 @@
 </head>
   
 <body class="bg-gradient-to-b from-sky-800 from-[20%] to-neutral-200 to-[20%] p-4 font-sans text-gray-800">
-  <div class="max-w-md mx-auto"> //halaman
+  <div class="max-w-md mx-auto"> 
     
-    <div class="mb-5 text-white"> //total-pengeluaran
+    <div class="mb-5 text-white"> 
       <p class="text-xs font-bold uppercase tracking-widest mb-2 opacity-90 text-center">Total Pengeluaran Bulan Ini</p>
       <h1 id="totalBulanIni" class="text-4xl font-bold leading-none text-center">Rp. 0</h1>
       <p id="namaBulan" class="text-sm mt-2 opacity-80 text-center">Loading...</p>
-    </div> //total pengeluaran
+    </div>
 
     <!-- Rekap Harian Hari Ini -->
-    <div class="bg-white rounded-3xl p-6 shadow-sm border border-white mb-5"> //kartu rekapan harian
+    <div class="bg-white rounded-3xl p-6 shadow-sm border border-white mb-5"> 
       <h3 class="text-xl font-bold mb-1 flex items-center"><span class="w-2 h-4 bg-red-500 rounded-full mr-2 hidden"></span> Pengeluaran Hari Ini</h3>
       <span id="totalHariIni" class="text-2xl font-bold text-rose-600 mb-2">Rp. 0</span>
       <div id="rekapHariIni" class="-space-y-2">
         <p class="text-gray-400 text-sm">Memuat data...</p>
-      </div> //rekapHariIni
-    </div> //kartu rekapan harian
+      </div>
+    </div> 
     
     <!-- Monthly Breakdown -->
-    <div class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 mb-5"> //kartu monthly breakdown
-      <div class="flex items-center justify-between mb-4">//judul
+    <div class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 mb-5"> 
+      <div class="flex items-center justify-between mb-4">
         <h3 class="text-lg font-bold text-gray-800">Monthly Breakdown</h3>
-        <div class="flex space-x-2"> //arrows
+        <div class="flex space-x-2">
           <button onclick="changeMonth(-1)" class="p-1.5 bg-gray-100 rounded-full hover:bg-gray-200 transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
           </button>
           <button onclick="changeMonth(1)" class="p-1.5 bg-gray-100 rounded-full hover:bg-gray-200 transition">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
           </button>
-        </div> //arrows
-      </div> //judul
+        </div> 
+      </div> 
       
-      <div class="space-y-3"> //pemasukan pengeluaran
+      <div class="space-y-3"> 
         <!-- Breakout Bar Pemasukan -->
-        <div> //pemasukan
-          <div class="flex justify-between text-xs mb-1"> //judul
+        <div> 
+          <div class="flex justify-between text-xs mb-1">
             <span class="text-green-600 font-semibold">Pemasukan</span>
             <span id="breakdownInText" class="font-normal">Rp. 0</span>
-          </div> //judul
-          <div class="w-full bg-gray-100 rounded-full h-2"> //bar
+          </div> 
+          <div class="w-full bg-gray-100 rounded-full h-2"> 
             <div id="breakdownInBar" class="bg-sky-500 h-2 rounded-full transition-all duration-500" style="width: 0%"> //progress
-            </div> //progress
-          </div> //bar
-        </div> //pemasukan
+            </div> 
+          </div> 
+        </div> 
         <!-- Breakout Bar Pengeluaran-->
-        <div> //pengeluaran
-          <div class="flex justify-between text-xs mb-1"> //judul
+        <div> 
+          <div class="flex justify-between text-xs mb-1"> 
             <span class="text-rose-600 font-semibold">Pengeluaran</span>
             <span id="breakdownOutText" class="font-normal">Rp. 0</span>
-          </div> //judul
-          <div class="w-full bg-gray-100 rounded-full h-2"> //bar
+          </div> 
+          <div class="w-full bg-gray-100 rounded-full h-2"> 
             <div id="breakdownOutBar" class="bg-rose-500 h-2 rounded-full transition-all duration-500" style="width: 0%"> //progress
-            </div> //progress
-          </div> //bar
-        </div> //pengeluaran
-  <p id="monthLabel" class="text-center text-[10px] text-gray-400 mt-4 font-medium uppercase tracking-widest">Januari 2026</p>
-</div>//pemasukan pengeluaran
+            </div> 
+          </div> 
+        </div> 
+        <p id="monthLabel" class="text-center text-[10px] text-gray-400 mt-4 font-medium uppercase tracking-widest">Januari 2026</p>
+      </div>
+    </div>
     
     <!-- Grafik Doughnut - Kategori 
     <div class="bg-white rounded-3xl p-5 border-white mb-5">
