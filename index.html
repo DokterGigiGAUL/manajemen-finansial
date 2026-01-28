@@ -168,12 +168,17 @@
       
       const btnKeluar = document.getElementById('tabPengeluaran');
       const btnMasuk = document.getElementById('tabPemasukan');
-      
+      const year = chartData.currentYear || new Date().getFullYear(); /*tambahan baru*/
+     
       if (type === 'pengeluaran') {
+        btnKeluar.innerHTML = `Pengeluaran ${year}`; // Tambahkan keterangan tahun
+        btnMasuk.innerHTML = `Pemasukan`;
         btnKeluar.className = "flex-1 pb-3 text-lg font-bold border-b-2 border-rose-600 text-rose-600 transition-all";
         btnMasuk.className = "flex-1 pb-3 text-lg font-bold border-b-2 border-transparent text-gray-400 transition-all";
         updatePieChart(chartData.kategoriLabels, chartData.kategoriValues, '#F43F5E');
       } else {
+        btnKeluar.innerHTML = `Pengeluaran`;
+        btnMasuk.innerHTML = `Pemasukan ${year}`; // Tambahkan keterangan tahun
         btnKeluar.className = "flex-1 pb-3 text-lg font-bold border-b-2 border-transparent text-gray-400 transition-all";
         btnMasuk.className = "flex-1 pb-3 text-lg font-bold border-b-2 border-green-600 text-green-600";
         updatePieChart(chartData.pemasukanLabels, chartData.pemasukanValues, '#0284C7');
