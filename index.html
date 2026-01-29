@@ -33,10 +33,10 @@
         Statistik Kategori 
       </h3>
   <div class="flex bg-gray-300 border-gray-300 border-1 mb-6 rounded-lg w-64 mx-auto">
-    <button id="tabPengeluaran" onclick="switchTab('pengeluaran')" class="flex text-sm text-gray-600 font-bold border-gray-300 border-1 transition-all bg-white rounded-lg py-1 w-32 justify-center">
+    <button id="tabPengeluaran" onclick="switchTab('pengeluaran')" class="flex text-sm text-gray-600 font-semibold border-gray-300 border-2 transition-all bg-white rounded-lg py-1 w-32 justify-center"> 
       Pengeluaran
     </button>
-    <button id="tabPemasukan" onclick="switchTab('pemasukan')" class="flex w-32 text-sm text-gray-400 font-bold bg-gray-300 border-1 border-gray-300 rounded-lg transition-all py-1 justify-center">
+    <button id="tabPemasukan" onclick="switchTab('pemasukan')" class="flex w-32 text-sm text-gray-400 font-semibold bg-gray-300 border-2 border-gray-300 rounded-lg transition-all py-1 justify-center">
       Pemasukan
     </button>
   </div>
@@ -157,13 +157,13 @@
       const btnMasuk = document.getElementById('tabPemasukan');
       
       if (type === 'pengeluaran') {
-        btnKeluar.className = "flex w-32 text-sm text-gray-600 font-bold bg-white border-1 border-gray-300 transition-all rounded-lg py-1 justify-center";
-        btnMasuk.className = "flex w-32 text-sm text-gray-400 font-bold bg-gray-300 border-1 border-gray-300 rounded-lg transition-all py-1 justify-center";
+        btnKeluar.className = "flex w-32 text-sm text-gray-600 font-bold bg-white border-2 border-gray-300 transition-all rounded-lg py-1 justify-center";
+        btnMasuk.className = "flex w-32 text-sm text-gray-400 font-bold bg-gray-300 border-2 border-gray-300 rounded-lg transition-all py-1 justify-center";
         
         updatePieChart(chartData.kategoriLabels, chartData.kategoriValues, '#F43F5E');
       } else {
-        btnKeluar.className = "flex w-32 text-sm text-gray-400 font-bold bg-gray-300 border-1 border-gray-300 rounded-lg transition-all py-1 justify-center";
-        btnMasuk.className = "flex text-sm text-gray-600 font-bold border-gray-300 border-1 transition-all bg-white rounded-lg py-1 w-32 justify-center";
+        btnKeluar.className = "flex w-32 text-sm text-gray-400 font-bold bg-gray-300 border-2 border-gray-300 rounded-lg transition-all py-1 justify-center";
+        btnMasuk.className = "flex text-sm text-gray-600 font-bold border-gray-300 border-2 transition-all bg-white rounded-lg py-1 w-32 justify-center";
         updatePieChart(chartData.pemasukanLabels, chartData.pemasukanValues, '#0284C7');
       }
     }
