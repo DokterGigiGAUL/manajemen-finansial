@@ -289,6 +289,7 @@
 
   function renderRekap(rekap) {
   const container = document.getElementById('listRekap'); 
+    console.log("Data Rekap yang diterima:", rekap); // Tambahkan ini untuk tes
   if (!container) return;
 
   if (!rekap || rekap.length === 0) {
@@ -296,7 +297,6 @@
     return;
   }
 
-  // Simpan hasil map ke dalam variabel htmlContent
   const htmlContent = rekap.map(item => `
     <div class="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
       <div>
@@ -307,8 +307,7 @@
     </div>
   `).join('');
 
-  // Baru masukkan variabel tersebut ke dalam container
-  container.innerHTML = htmlContent;
+    container.innerHTML = htmlContent;
 }
 
     function showLoading(show) {
@@ -327,7 +326,6 @@
 
     fetchData();
 
-// Modifikasi fungsi fetchData yang sudah ada
 async function fetchData() {
     showLoading(true);
     const m = currentViewDate.getMonth() + 1;
