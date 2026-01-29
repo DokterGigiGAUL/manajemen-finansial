@@ -296,7 +296,8 @@
     return;
   }
 
-  container.innerHTML = rekap.map(item => `
+  //container.innerHTML = rekap.map(item => `
+    const htmlContent = rekap.map(item => `
     <div class="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
       <div>
         <p class="font-medium text-gray-800">${item.kategori || 'Lainnya'}</p>
