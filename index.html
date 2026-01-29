@@ -30,13 +30,13 @@
 
     <div class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 mb-5">
       <h3 class="text-xl font-bold mb-3 flex items-center">
-        Statistik Kategori Pengeluaran
+        Statistik Kategori 
       </h3>
-  <div class="flex border-b border-gray-100 mb-6">
-    <button id="tabPengeluaran" onclick="switchTab('pengeluaran')" class="flex-1 text-sm font-bold border-rose-600 border-2 text-rose-600 transition-all rounded-md items-center">
+  <div class="flex bg-grey-200 border-gray-200 mb-6">
+    <button id="tabPengeluaran" onclick="switchTab('pengeluaran')" class="flex-1 text-sm text-gray-600 font-bold border-grey-200 border-2 transition-all rounded-md py-1">
       Pengeluaran
     </button>
-    <button id="tabPemasukan" onclick="switchTab('pemasukan')" class="flex-1 pb-3 text-sm font-bold border-b-2 border-transparent text-gray-400 transition-a">
+    <button id="tabPemasukan" onclick="switchTab('pemasukan')" class="flex-1 text-sm text-gray-600 font-bold border-grey-200 border-2 rounded-md transition-all py-1">
       Pemasukan
     </button>
   </div>
@@ -157,12 +157,12 @@
       const btnMasuk = document.getElementById('tabPemasukan');
       
       if (type === 'pengeluaran') {
-        btnKeluar.className = "flex-1 text-sm font-bold border-rose-600 border-2 text-rose-600 transition-all rounded-md items-center";
-        btnMasuk.className = "flex-1 text-sm font-bold border-grey-200 bg-grey-200 border-2 text-grey-400 transition-all rounded-md items-center";
+        btnKeluar.className = "flex-1 text-sm text-gray-600 font-bold border-grey-200 border-2 transition-all rounded-md py-1";
+        btnMasuk.className = "flex-1 text-sm text-gray-600 font-bold border-grey-200 border-2 rounded-md transition-all py-1";
         updatePieChart(chartData.kategoriLabels, chartData.kategoriValues, '#F43F5E');
       } else {
-        btnKeluar.className = "flex-1 text-sm font-bold border-grey-200 bg-grey-200 border-2 text-grey-400 transition-all rounded-md items-center";
-        btnMasuk.className = "flex-1 text-sm font-bold border-sky-600 border-2 text-sky-600 transition-all rounded-md items-center";
+        btnKeluar.className = "flex-1 text-sm text-gray-600 font-bold border-grey-200 border-2 rounded-md transition-all py-1";
+        btnMasuk.className = "flex-1 text-sm text-gray-600 font-bold border-grey-200 border-2 transition-all rounded-md py-1";
         updatePieChart(chartData.pemasukanLabels, chartData.pemasukanValues, '#0284C7');
       }
     }
