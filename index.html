@@ -152,19 +152,27 @@
     }
 }
 
-    function updateSummary(data) {
+   function updateSummary(data) {
   if (!data) return;
   
   const totalBulan = document.getElementById('totalBulanIni');
   const namaBulan = document.getElementById('namaBulan');
+  // Menambahkan referensi untuk elemen Pengeluaran Hari Ini
+  const totalHari = document.getElementById('totalHariIni');
   
-  // Ambil data.totalBulanIni yang dikirim dari GAS
+  // 1. Update Total Bulan Ini (Besar di Atas)
   if (totalBulan) {
     totalBulan.textContent = 'Rp. ' + (data.totalBulanIni || 0).toLocaleString('id-ID');
   }
   
+  // 2. Update Pengeluaran Hari Ini (Di dalam kartu rekap harian)
+  if (totalHari) {
+    // Mengambil data.totalHariIni yang dikirim dari GAS
+    totalHari.textContent = 'Rp. ' + (data.totalHariIni || 0).toLocaleString('id-ID');
+  }
+  
+  // 3. Update Nama Bulan dan Tahun
   if (namaBulan) {
-    // Ambil nama bulan dari objek monthlyBreakdown agar sinkron dengan navigasi
     if (data.monthlyBreakdown) {
       namaBulan.textContent = data.monthlyBreakdown.monthName + " " + data.monthlyBreakdown.year;
     } else {
@@ -275,22 +283,26 @@
 }
 
     function renderRekap(rekap) {
-      const container = document.getElementById('rekapHariIni');
-      if (!container) return;
-      if(!rekap || rekap.length === 0) {
-        container.innerHTML = '<p class="text-center text-gray-400 text-sm py-4">Tidak ada transaksi hari ini</p>';
-        return;
-      }
-      container.innerHTML = rekap.map(item => `
-        <div class="flex items-center justify-between pt-2 pb-2 bg-white mb-2 mt-2">
-          <div>
-            <p class="font-normal text-gray-900">${item.kategori}</p>
-            <p class="text-xs text-gray-500">${item.items}</p>
-          </div>
-          <p class="font-normal text-gray-900 text-right">Rp. ${item.nominal.toLocaleString('id-ID')}</p>
-        </div>
-      `).join('');
-    }
+  const container = document.getElementById('rekapHariIni');
+  if (!container) return;
+
+  if (!rekap || rekap.length === 0) {
+    container.innerHTML = '<p class="text-center text-gray-400 text-sm py-4">Tidak ada transaksi hari ini</p>';
+    return;
+  }
+
+  container.innerHTML = rekap.map(item => `
+    <div class="flex items-center justify-between pt-2 pb-2 bg-white mb-2 mt-2 border-b border-gray-50 last:border-0">
+      <div>
+        <p class="font-normal text-gray-900">${item.kategori || 'Tanpa Kategori'}</p>
+        <p class="text-xs text-gray-500">${item.item || '-'}</p>
+      </div>
+      <p class="font-normal text-gray-900 text-right">
+        Rp. ${(item.nominal || 0).toLocaleString('id-ID')}
+      </p>
+    </div>
+  `).join('');
+}
 
     function showLoading(show) {
       const l = document.getElementById('loading');
