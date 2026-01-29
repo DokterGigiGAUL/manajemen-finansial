@@ -287,8 +287,8 @@
   });
 }
 
-    function renderRekap(rekap) {
-  const container = document.getElementById('listRekap'); // ID Baru
+  function renderRekap(rekap) {
+  const container = document.getElementById('listRekap'); 
   if (!container) return;
 
   if (!rekap || rekap.length === 0) {
@@ -296,8 +296,8 @@
     return;
   }
 
-  //container.innerHTML = rekap.map(item => `
-    const htmlContent = rekap.map(item => `
+  // Simpan hasil map ke dalam variabel htmlContent
+  const htmlContent = rekap.map(item => `
     <div class="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
       <div>
         <p class="font-medium text-gray-800">${item.kategori || 'Lainnya'}</p>
@@ -307,6 +307,7 @@
     </div>
   `).join('');
 
+  // Baru masukkan variabel tersebut ke dalam container
   container.innerHTML = htmlContent;
 }
 
