@@ -286,22 +286,26 @@
   const container = document.getElementById('rekapHariIni');
   if (!container) return;
 
+  // Cek apakah rekap benar-benar ada isinya
   if (!rekap || rekap.length === 0) {
     container.innerHTML = '<p class="text-center text-gray-400 text-sm py-4">Tidak ada transaksi hari ini</p>';
     return;
   }
 
-  container.innerHTML = rekap.map(item => `
-    <div class="flex items-center justify-between pt-2 pb-2 bg-white mb-2 mt-2 border-b border-gray-50 last:border-0">
-      <div>
-        <p class="font-normal text-gray-900">${item.kategori || 'Tanpa Kategori'}</p>
+  // Jika ada, buatkan list-nya
+  const htmlContent = rekap.map(item => `
+    <div class="flex items-center justify-between py-3 border-b border-gray-50 last:border-0">
+      <div style="text-align: left;">
+        <p class="font-semibold text-gray-800 text-sm">${item.kategori || 'Lainnya'}</p>
         <p class="text-xs text-gray-500">${item.item || '-'}</p>
       </div>
-      <p class="font-normal text-gray-900 text-right">
-        Rp. ${(item.nominal || 0).toLocaleString('id-ID')}
-      </p>
+      <div style="text-align: right;">
+        <p class="font-bold text-gray-900 text-sm">Rp. ${(item.nominal || 0).toLocaleString('id-ID')}</p>
+      </div>
     </div>
   `).join('');
+
+  container.innerHTML = htmlContent;
 }
 
     function showLoading(show) {
