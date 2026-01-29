@@ -114,7 +114,8 @@
     let chartData = null; 
     let currentPieChart = null;
     let currentBarChart = null; // Tambahkan ini untuk tracking bar chart
-
+    let currentViewDate = new Date();
+      
     async function fetchData() {
     showLoading(true);
     // Mengambil bulan dan tahun dari variabel global currentViewDate
@@ -284,8 +285,6 @@
     }
 
     fetchData();
-
-      let currentViewDate = new Date();
 
 // Modifikasi fungsi fetchData yang sudah ada
 async function fetchData() {
