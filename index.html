@@ -224,9 +224,9 @@
         return;
       }
       container.innerHTML = rekap.map(item => `
-        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl mb-3 border border-gray-100">
+        <div class="flex items-center justify-between pl-2 pr-2 mt-4">
           <div>
-            <p class="font-bold text-gray-900">${item.kategori}</p>
+            <p class="font-normal text-gray-900">${item.kategori}</p>
             <p class="text-xs text-gray-500">${item.items}</p>
           </div>
           <p class="font-bold text-rose-600 text-right">Rp. ${item.nominal.toLocaleString('id-ID')}</p>
