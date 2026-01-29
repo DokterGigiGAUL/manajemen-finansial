@@ -153,18 +153,26 @@
 }
 
     function updateSummary(data) {
-      if (!data) return;
-      // Gunakan innerText untuk keamanan
-      const elBulan = document.getElementById('totalBulanIni');
-      const elHari = document.getElementById('totalHariIni');
-      const elNamaBulan = document.getElementById('namaBulan');
-
-      if (elBulan) elBulan.innerText = 'Rp. ' + (data.totalBulanIni || 0).toLocaleString('id-ID');
-      if (elHari) elHari.innerText = 'Rp. ' + (data.totalHariIni || 0).toLocaleString('id-ID');
-      
+  if (!data) return;
+  
+  const totalBulan = document.getElementById('totalBulanIni');
+  const namaBulan = document.getElementById('namaBulan');
+  
+  // Ambil data.totalBulanIni yang dikirim dari GAS
+  if (totalBulan) {
+    totalBulan.textContent = 'Rp. ' + (data.totalBulanIni || 0).toLocaleString('id-ID');
+  }
+  
+  if (namaBulan) {
+    // Ambil nama bulan dari objek monthlyBreakdown agar sinkron dengan navigasi
+    if (data.monthlyBreakdown) {
+      namaBulan.textContent = data.monthlyBreakdown.monthName + " " + data.monthlyBreakdown.year;
+    } else {
       const skrg = new Date();
-      if (elNamaBulan) elNamaBulan.innerText = skrg.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+      namaBulan.textContent = skrg.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
     }
+  }
+}
 
     function updatePieChart(labels, values, color) {
       const canvas = document.getElementById('pieChart');
