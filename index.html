@@ -116,43 +116,40 @@
     let currentBarChart = null; // Tambahkan ini untuk tracking bar chart
 
     async function fetchData() {
-      showLoading(true);
-      try {
-        const response = await fetch(GAS_URL + '?action=getData');
-        const text = await response.text(); // Ambil teks mentah dulu
+    showLoading(true);
+    // Mengambil bulan dan tahun dari variabel global currentViewDate
+    const m = currentViewDate.getMonth() + 1;
+    const y = currentViewDate.getFullYear();
+    
+    try {
+        // PENTING: Gunakan template literal (backtick) untuk memasukkan parameter ke URL
+        const response = await fetch(`${GAS_URL}?action=getData&month=${m}&year=${y}`);
         
-        let data;
-        try {
-          data = JSON.parse(text);
-        } catch (e) {
-          throw new Error("Format data dari GAS salah/error. Cek URL Deployment Anda.");
-        }
+        if (!response.ok) throw new Error('Network response was not ok');
         
-        chartData = data; 
+        const data = await response.json();
+        chartData = data;
 
-        // TAMPILKAN SALDO DULU (Prioritas Utama)
-        updateSummary(data); 
+        // 1. Update Saldo Utama (Atas)
+        updateSummary(data);
         
-        // TAMPILKAN REKAP LIST
+        // 2. Update Grafik (Pie & Bar)
+        drawCharts(data);
+        
+        // 3. Update List Rekap
         renderRekap(data.rekapHariIni);
 
-        // BARU GAMBAR GRAFIK (Gunakan setTimeout agar DOM benar-benar siap)
-        setTimeout(() => {
-          try {
-            drawCharts(data);
-          } catch (chartError) {
-            console.error("Grafik gagal:", chartError);
-            // Tetap lanjut meskipun grafik gagal agar saldo tidak hilang
-          }
-        }, 100);
-
-      } catch (error) {
-        console.error('Fatal Error:', error);
-        showSystemError(error.message);
-      } finally {
+        // 4. Update Kartu Monthly Breakdown (BARU)
+        updateMonthlyBreakdown(data);
+        
+    } catch (error) {
+        console.error("Fetch error:", error);
+        // Tampilkan pesan error jika gagal agar tidak stuck di loading
+        document.getElementById('namaBulan').innerText = "Gagal memuat data";
+    } finally {
         showLoading(false);
-      }
     }
+}
 
     function updateSummary(data) {
       if (!data) return;
