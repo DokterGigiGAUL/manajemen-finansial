@@ -225,40 +225,54 @@
     }
 
     function drawCharts(data) {
-      updatePieChart(data.kategoriLabels, data.kategoriValues, '#F43F5E');
+  if (!data) return;
 
-      const canvasBar = document.getElementById('barChart');
-      if (!canvasBar) return;
-      
-      if (currentBarChart) currentBarChart.destroy();
+  // 1. Trigger Pie Chart (Tampilkan Pengeluaran secara default)
+  if (data.kategoriLabels && data.kategoriLabels.length > 0) {
+     updatePieChart(data.kategoriLabels, data.kategoriValues, '#F43F5E');
+  }
 
-      currentBarChart = new Chart(canvasBar.getContext('2d'), {
-        type: 'bar',
-        data: {
-          labels: (data.itemLabels || []).map((item, index) => [data.itemKategori[index] || '', item]),
-          datasets: [{
-            label: 'Nominal',
-            data: data.itemValues || [],
-            backgroundColor: 'rgba(139, 92, 246, 1)',
-            borderRadius: 4,
-            barThickness: 16
-          }]
-        },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            x: { display: false },
-            y: {
-              grid: { display: false },
-              ticks: { padding: 10, font: { size: 10, weight: '400', lineHeight: 1.25 } }
-            }
-          },
-          plugins: { legend: { display: false } }
+  // 2. Gambar Bar Chart (Pengeluaran Terbanyak)
+  const canvasBar = document.getElementById('barChart');
+  if (!canvasBar) return;
+  
+  if (currentBarChart) currentBarChart.destroy();
+
+  currentBarChart = new Chart(canvasBar.getContext('2d'), {
+    type: 'bar',
+    data: {
+      // Pastikan data.itemKategori tersedia agar tidak error saat di-map
+      labels: (data.itemLabels || []).map((item, index) => [
+        (data.itemKategori && data.itemKategori[index]) ? data.itemKategori[index] : '', 
+        item
+      ]),
+      datasets: [{
+        label: 'Nominal',
+        data: data.itemValues || [],
+        backgroundColor: 'rgba(139, 92, 246, 1)',
+        borderRadius: 4,
+        barThickness: 16
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: { display: false },
+        y: {
+          grid: { display: false },
+          ticks: { 
+            padding: 10, 
+            font: { size: 10, weight: '400', lineHeight: 1.25 },
+            autoSkip: false // Pastikan semua label muncul
+          }
         }
-      });
+      },
+      plugins: { legend: { display: false } }
     }
+  });
+}
 
     function renderRekap(rekap) {
       const container = document.getElementById('rekapHariIni');
