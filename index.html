@@ -318,15 +318,18 @@ async function fetchData() {
 }
 
 function updateMonthlyBreakdown(data) {
-    const inc = data.monthlyIncome || 0;
-    const exp = data.monthlyExpense || 0;
-    const max = Math.max(inc, exp) || 1; // Mencegah pembagian nol
+    // Ambil dari objek monthlyBreakdown yang dikirim GAS
+    const mb = data.monthlyBreakdown;
+    if (!mb) return;
+
+    const inc = mb.income || 0;
+    const exp = mb.expense || 0;
+    const max = Math.max(inc, exp) || 1;
 
     document.getElementById('breakdownInText').innerText = 'Rp. ' + inc.toLocaleString('id-ID');
     document.getElementById('breakdownOutText').innerText = 'Rp. ' + exp.toLocaleString('id-ID');
-    document.getElementById('monthLabel').innerText = data.currentMonthName + " " + data.targetYear;
+    document.getElementById('monthLabel').innerText = mb.monthName + " " + mb.year;
 
-    // Set lebar bar secara proporsional
     document.getElementById('breakdownInBar').style.width = (inc / max * 100) + '%';
     document.getElementById('breakdownOutBar').style.width = (exp / max * 100) + '%';
 }
