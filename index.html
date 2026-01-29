@@ -17,368 +17,221 @@
       <p id="namaBulan" class="text-sm mt-2 opacity-80 text-center">Loading...</p>
     </div>
 
-    <!-- Rekap Harian Hari Ini -->
     <div class="bg-white rounded-3xl p-6 shadow-sm border border-white mb-5"> 
-  <h3 class="text-xl font-bold mb-1 flex items-center">
-    <span class="w-1.5 h-6 bg-purple-600 rounded-full mr-3"></span>Rekap Hari Ini
-  </h3>
-  <h2 id="totalHariIni" class="text-2xl font-bold">Rp. 0</h2> 
-  
-  <hr class="my-4 border-gray-100">
-
-  <div id="listRekap">
-    <p class="text-center text-gray-400 text-sm py-4">Memuat data...</p>
-  </div>
-</div>
-    
-    <!-- Monthly Breakdown -->
-    <div class="bg-white rounded-3xl p-5 shadow-sm border border-gray-100 mb-5"> 
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold text-gray-800">Monthly Breakdown</h3>
-        <div class="flex space-x-2">
-          <button onclick="changeMonth(-1)" class="p-1.5 bg-gray-100 rounded-full hover:bg-gray-200 transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-          </button>
-          <button onclick="changeMonth(1)" class="p-1.5 bg-gray-100 rounded-full hover:bg-gray-200 transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-          </button>
-        </div> 
-      </div> 
+      <h3 class="text-xl font-bold mb-1 flex items-center">
+        <span class="w-1.5 h-6 bg-purple-600 rounded-full mr-3"></span>Rekap Hari Ini
+      </h3>
+      <h2 id="totalHariIni" class="text-2xl font-bold">Rp. 0</h2>
       
-      <div class="space-y-3"> 
-        <!-- Breakout Bar Pemasukan -->
-        <div> 
-          <div class="flex justify-between text-xs mb-1">
-            <span class="text-green-600 font-semibold">Pemasukan</span>
-            <span id="breakdownInText" class="font-normal">Rp. 0</span>
-          </div> 
-          <div class="w-full bg-gray-100 rounded-full h-2"> 
-            <div id="breakdownInBar" class="bg-sky-500 h-2 rounded-full transition-all duration-500" style="width: 0%"> 
-            </div> 
-          </div> 
-        </div> 
-        <!-- Breakout Bar Pengeluaran-->
-        <div> 
-          <div class="flex justify-between text-xs mb-1"> 
-            <span class="text-rose-600 font-semibold">Pengeluaran</span>
-            <span id="breakdownOutText" class="font-normal">Rp. 0</span>
-          </div> 
-          <div class="w-full bg-gray-100 rounded-full h-2"> 
-            <div id="breakdownOutBar" class="bg-rose-500 h-2 rounded-full transition-all duration-500" style="width: 0%"> 
-            </div> 
-          </div> 
-        </div> 
-        <p id="monthLabel" class="text-center text-[10px] text-gray-400 mt-4 font-medium uppercase tracking-widest">Januari 2026</p>
+      <hr class="my-4 border-gray-100">
+
+      <div id="listRekap">
+        <p class="text-center text-gray-400 text-sm py-4">Memuat rincian...</p>
       </div>
     </div>
-    
-    <!-- Grafik Doughnut - Kategori 
-    <div class="bg-white rounded-3xl p-5 border-white mb-5">
-      <p class="text-xs font-light uppercase tracking-widest mb-1 text-left">Statistik</p>
-      <h3 class="text-xl font-bold mb-6 flex items-center">
-        <span class="w-2 h-4 bg-amber-500 rounded-full mr-2 hidden"></span> Kategori Pengeluaran
-      </h3>
-      <div class="aspect-square">
+
+    <div class="flex items-center justify-between mb-5 px-2">
+      <button onclick="changeMonth(-1)" class="w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-sm text-sky-800 font-bold">&larr;</button>
+      <div class="text-center bg-white/20 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/30 text-white font-semibold" id="monthLabel">Januari 2026</div>
+      <button onclick="changeMonth(1)" class="w-10 h-10 flex items-center justify-center bg-white rounded-full shadow-sm text-sky-800 font-bold">&rarr;</button>
+    </div>
+
+    <div class="bg-white rounded-3xl p-6 shadow-sm border border-white mb-5">
+      <div class="flex bg-gray-100 p-1 rounded-2xl mb-6">
+        <button id="btn-pengeluaran" onclick="switchTab('pengeluaran')" class="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all bg-white shadow-sm text-gray-800">Pengeluaran</button>
+        <button id="btn-pemasukan" onclick="switchTab('pemasukan')" class="flex-1 py-2.5 rounded-xl text-sm font-bold transition-all text-gray-500 hover:text-gray-700">Pemasukan</button>
+      </div>
+      <div class="relative h-64 mb-4">
         <canvas id="pieChart"></canvas>
       </div>
-    </div>-->
-    <div class="bg-white rounded-3xl p-5 mb-5">
-  <div class="flex border-b border-gray-100 mb-6">
-    <button id="tabPengeluaran" onclick="switchTab('pengeluaran')" class="flex-1 pb-3 text-lg font-bold border-b-2 border-rose-600 text-rose-600 transition-all">
-      Pengeluaran
-    </button>
-    <button id="tabPemasukan" onclick="switchTab('pemasukan')" class="flex-1 pb-3 text-lg font-bold border-b-2 border-transparent text-gray-400 transition-all">
-      Pemasukan
-    </button>
-  </div>
-  
-  <div class="aspect-square relative">
-    <canvas id="pieChart"></canvas>
-  </div>
-</div>
+      <div id="legendContainer" class="space-y-3 mt-6"></div>
+    </div>
 
-    <!-- Grafik Bar - 7 Hari Terakhir per Item -->
-    <div class="bg-white rounded-3xl p-5 border border-white">
-      <h3 class="text-xl font-bold mb-2 flex items-center">
-        <span class="w-2 h-4 bg-sky-600 rounded-full mr-2 hidden"></span> Pengeluaran Terbanyak
+    <div class="bg-white rounded-3xl p-6 shadow-sm border border-white mb-20">
+      <h3 class="text-lg font-bold mb-6 flex items-center">
+        <span class="w-1.5 h-5 bg-purple-600 rounded-full mr-3"></span>Pengeluaran Terbanyak
       </h3>
-      <h3 class="text-base font-medium mb-4 flex items-center text-gray-500">
-        <span class="w-2 h-4 bg-sky-600 rounded-full mr-2 hidden"></span> 7 hari terakhir
-      </h3>
-      <div class="relative aspect-[4/3] w-full">
+      <div class="h-64">
         <canvas id="barChart"></canvas>
       </div>
     </div>
   </div>
 
-    <script>
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbym_nljEPd8FkHu9xwBAV2DXTU4H7qR4WtDpm8IdwqFatBQ25DH2nGgRvluzjQHeADXdA/exec"; 
+<script>
+const GAS_URL = "https://script.google.com/macros/s/AKfycbyC-8Fp634H6S880B1vOa_A69Xm7fI_98A-kCscM5n232R83zHn0G4wS365XN7mOyoK/exec"; // URL Anda
+let currentViewDate = new Date();
+let currentPieChart = null;
+let currentBarChart = null;
+let globalData = null;
+
+window.onload = () => {
     const tg = window.Telegram.WebApp;
     tg.expand();
+    tg.ready();
+    fetchData();
+};
 
-    let chartData = null; 
-    let currentPieChart = null;
-    let currentBarChart = null; // Tambahkan ini untuk tracking bar chart
-    let currentViewDate = new Date();
-      
-    async function fetchData() {
-    showLoading(true);
-    // Mengambil bulan dan tahun dari variabel global currentViewDate
+async function fetchData() {
     const m = currentViewDate.getMonth() + 1;
     const y = currentViewDate.getFullYear();
     
     try {
-        // PENTING: Gunakan template literal (backtick) untuk memasukkan parameter ke URL
-        const response = await fetch(`${GAS_URL}?action=getData&month=${m}&year=${y}`);
-        
-        if (!response.ok) throw new Error('Network response was not ok');
-        
+        // Cache busting agar data selalu segar
+        const response = await fetch(`${GAS_URL}?action=getData&month=${m}&year=${y}&v=${new Date().getTime()}`);
         const data = await response.json();
-        chartData = data;
+        globalData = data;
 
-        // 1. Update Saldo Utama (Atas)
         updateSummary(data);
-        
-        // 2. Update Grafik (Pie & Bar)
         drawCharts(data);
-        
-        // 3. Update List Rekap
         renderRekap(data.rekapHariIni);
-
-        // 4. Update Kartu Monthly Breakdown (BARU)
         updateMonthlyBreakdown(data);
         
     } catch (error) {
-        console.error("Fetch error:", error);
-        // Tampilkan pesan error jika gagal agar tidak stuck di loading
-        document.getElementById('namaBulan').innerText = "Gagal memuat data";
-    } finally {
-        showLoading(false);
+        console.error("Gagal mengambil data:", error);
     }
 }
 
-   function updateSummary(data) {
-  if (!data) return;
-  
-  const totalBulan = document.getElementById('totalBulanIni');
-  const namaBulan = document.getElementById('namaBulan');
-  // Menambahkan referensi untuk elemen Pengeluaran Hari Ini
-  const totalHari = document.getElementById('totalHariIni');
-  
-  // 1. Update Total Bulan Ini (Besar di Atas)
-  if (totalBulan) {
-    totalBulan.textContent = 'Rp. ' + (data.totalBulanIni || 0).toLocaleString('id-ID');
-  }
-  
-  // 2. Update Pengeluaran Hari Ini (Di dalam kartu rekap harian)
-  if (totalHari) {
-    // Mengambil data.totalHariIni yang dikirim dari GAS
-    totalHari.textContent = 'Rp. ' + (data.totalHariIni || 0).toLocaleString('id-ID');
-  }
-  
-  // 3. Update Nama Bulan dan Tahun
-  if (namaBulan) {
-    if (data.monthlyBreakdown) {
-      namaBulan.textContent = data.monthlyBreakdown.monthName + " " + data.monthlyBreakdown.year;
+function updateSummary(data) {
+    if (!data) return;
+    
+    const totalBulan = document.getElementById('totalBulanIni');
+    const totalHari = document.getElementById('totalHariIni');
+    const namaBulan = document.getElementById('namaBulan');
+
+    if (totalBulan) totalBulan.textContent = 'Rp. ' + (data.totalBulanIni || 0).toLocaleString('id-ID');
+    if (totalHari) totalHari.textContent = 'Rp. ' + (data.totalHariIni || 0).toLocaleString('id-ID');
+    
+    if (namaBulan && data.monthlyBreakdown) {
+        namaBulan.textContent = data.monthlyBreakdown.monthName + " " + data.monthlyBreakdown.year;
+    }
+}
+
+function renderRekap(rekap) {
+    const container = document.getElementById('listRekap');
+    if (!container) return;
+
+    if (!rekap || rekap.length === 0) {
+        container.innerHTML = '<p class="text-center text-gray-400 text-sm py-4">Tidak ada transaksi hari ini</p>';
+        return;
+    }
+
+    container.innerHTML = rekap.map(item => `
+        <div class="flex items-center justify-between py-3 border-b border-gray-50 last:border-0">
+            <div>
+                <p class="font-semibold text-gray-800 text-sm">${item.kategori || 'Lainnya'}</p>
+                <p class="text-xs text-gray-400">${item.item || '-'}</p>
+            </div>
+            <p class="font-bold text-gray-900 text-sm">Rp. ${(item.nominal || 0).toLocaleString('id-ID')}</p>
+        </div>
+    `).join('');
+}
+
+function switchTab(type) {
+    const btnExp = document.getElementById('btn-pengeluaran');
+    const btnInc = document.getElementById('btn-pemasukan');
+    
+    if (type === 'pengeluaran') {
+        btnExp.className = 'flex-1 py-2.5 rounded-xl text-sm font-bold transition-all bg-white shadow-sm text-gray-800';
+        btnInc.className = 'flex-1 py-2.5 rounded-xl text-sm font-bold transition-all text-gray-500 hover:text-gray-700';
+        updatePieChart(globalData.kategoriLabels, globalData.kategoriValues, '#F43F5E');
     } else {
-      const skrg = new Date();
-      namaBulan.textContent = skrg.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+        btnInc.className = 'flex-1 py-2.5 rounded-xl text-sm font-bold transition-all bg-white shadow-sm text-gray-800';
+        btnExp.className = 'flex-1 py-2.5 rounded-xl text-sm font-bold transition-all text-gray-500 hover:text-gray-700';
+        updatePieChart(globalData.pemasukanLabels, globalData.pemasukanValues, '#10B981');
     }
-  }
 }
 
-    function updatePieChart(labels, values, color) {
-      const canvas = document.getElementById('pieChart');
-      if (!canvas) return;
-      
-      if (currentPieChart) currentPieChart.destroy();
-      
-      currentPieChart = new Chart(canvas.getContext('2d'), {
+function updatePieChart(labels, values, color) {
+    const ctx = document.getElementById('pieChart').getContext('2d');
+    if (currentPieChart) currentPieChart.destroy();
+
+    currentPieChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: labels || [],
-          datasets: [{
-            data: values || [],
-            backgroundColor: [color, '#FB923C', '#FBBF24', '#34D399', '#60A5FA', '#A78BFA'],
-            borderWidth: 1,
-            borderColor: '#fff'
-          }]
+            labels: labels,
+            datasets: [{
+                data: values,
+                backgroundColor: labels.map((_, i) => `${color}${Math.max(20, 100 - (i * 15)).toString(16)}`),
+                borderWidth: 0,
+                hoverOffset: 10
+            }]
         },
         options: {
-          cutout: '65%',
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { position: 'bottom', labels: { usePointStyle: true, padding: 15, font: { size: 11 } } }
-          }
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '75%',
+            plugins: { legend: { display: false } }
         }
-      });
-    }
+    });
 
-    function switchTab(type) {
-      if (!chartData) return;
-      
-      const btnKeluar = document.getElementById('tabPengeluaran');
-      const btnMasuk = document.getElementById('tabPemasukan');
-      const year = chartData.currentYear || new Date().getFullYear(); /*tambahan baru*/
-     
-      if (type === 'pengeluaran') {
-        btnKeluar.innerHTML = `Pengeluaran ${year}`; // Tambahkan keterangan tahun
-        btnMasuk.innerHTML = `Pemasukan`;
-        btnKeluar.className = "flex-1 pb-3 text-lg font-bold border-b-2 border-rose-600 text-rose-600 transition-all";
-        btnMasuk.className = "flex-1 pb-3 text-lg font-bold border-b-2 border-transparent text-gray-400 transition-all";
-        updatePieChart(chartData.kategoriLabels, chartData.kategoriValues, '#F43F5E');
-      } else {
-        btnKeluar.innerHTML = `Pengeluaran`;
-        btnMasuk.innerHTML = `Pemasukan ${year}`; // Tambahkan keterangan tahun
-        btnKeluar.className = "flex-1 pb-3 text-lg font-bold border-b-2 border-transparent text-gray-400 transition-all";
-        btnMasuk.className = "flex-1 pb-3 text-lg font-bold border-b-2 border-green-600 text-green-600";
-        updatePieChart(chartData.pemasukanLabels, chartData.pemasukanValues, '#0284C7');
-      }
-    }
-
-    function drawCharts(data) {
-  if (!data) return;
-
-  // 1. Trigger Pie Chart (Tampilkan Pengeluaran secara default)
-  if (data.kategoriLabels && data.kategoriLabels.length > 0) {
-     updatePieChart(data.kategoriLabels, data.kategoriValues, '#F43F5E');
-  }
-
-  // 2. Gambar Bar Chart (Pengeluaran Terbanyak)
-  const canvasBar = document.getElementById('barChart');
-  if (!canvasBar) return;
-  
-  if (currentBarChart) currentBarChart.destroy();
-
-  currentBarChart = new Chart(canvasBar.getContext('2d'), {
-    type: 'bar',
-    data: {
-      // Pastikan data.itemKategori tersedia agar tidak error saat di-map
-      labels: (data.itemLabels || []).map((item, index) => [
-        (data.itemKategori && data.itemKategori[index]) ? data.itemKategori[index] : '', 
-        item
-      ]),
-      datasets: [{
-        label: 'Nominal',
-        data: data.itemValues || [],
-        backgroundColor: 'rgba(139, 92, 246, 1)',
-        borderRadius: 4,
-        barThickness: 16
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        x: { display: false },
-        y: {
-          grid: { display: false },
-          ticks: { 
-            padding: 10, 
-            font: { size: 10, weight: '400', lineHeight: 1.25 },
-            autoSkip: false // Pastikan semua label muncul
-          }
-        }
-      },
-      plugins: { legend: { display: false } }
-    }
-  });
-}
-
-    function renderRekap(rekap) {
-  const container = document.getElementById('listRekap'); // ID Baru
-  if (!container) return;
-
-  if (!rekap || rekap.length === 0) {
-    container.innerHTML = '<p class="text-center text-gray-400 text-sm py-4">Tidak ada transaksi hari ini</p>';
-    return;
-  }
-
-  container.innerHTML = rekap.map(item => `
-    <div class="flex items-center justify-between py-2 border-b border-gray-50 last:border-0">
-      <div>
-        <p class="font-medium text-gray-800">${item.kategori || 'Lainnya'}</p>
-        <p class="text-xs text-gray-400">${item.item || '-'}</p>
-      </div>
-      <p class="font-semibold text-gray-900">Rp. ${(item.nominal || 0).toLocaleString('id-ID')}</p>
-    </div>
-  `).join('');
-
-  container.innerHTML = htmlContent;
-}
-
-    function showLoading(show) {
-      const l = document.getElementById('loading');
-      const m = document.getElementById('mainContent');
-      if (l) l.style.display = show ? 'flex' : 'none';
-      if (m) m.style.display = show ? 'none' : 'block';
-    }
-
-    function showSystemError(msg) {
-      const errorDiv = document.createElement('div');
-      errorDiv.className = "bg-red-600 text-white p-4 rounded-xl m-4 text-xs font-mono fixed top-0 left-0 right-0 z-[9999]";
-      errorDiv.innerHTML = "<b>Sistem Error:</b> " + msg;
-      document.body.prepend(errorDiv);
-    }
-
-    fetchData();
-
-// Modifikasi fungsi fetchData yang sudah ada
-async function fetchData() {
-    showLoading(true);
-    const m = currentViewDate.getMonth() + 1;
-    const y = currentViewDate.getFullYear();
+    // Update Legend Manual
+    const legendContainer = document.getElementById('legendContainer');
+    const total = values.reduce((a, b) => a + b, 0);
     
-    try {
-        // Tambahkan parameter bulan dan tahun ke URL
-        const response = await fetch(`${GAS_URL}?action=getData&month=${m}&year=${y}`);
-        const data = await response.json();
-        chartData = data;
+    legendContainer.innerHTML = labels.map((label, i) => {
+        const percent = total > 0 ? Math.round((values[i] / total) * 100) : 0;
+        return `
+            <div class="flex items-center justify-between group">
+                <div class="flex items-center gap-3">
+                    <div class="w-2.5 h-2.5 rounded-full" style="background-color: ${currentPieChart.data.datasets[0].backgroundColor[i]}"></div>
+                    <span class="text-sm font-medium text-gray-600">${label}</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="text-xs font-bold text-gray-400">${percent}%</span>
+                    <span class="text-sm font-bold text-gray-800">Rp. ${values[i].toLocaleString('id-ID')}</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
 
-        // Update bagian Saldo & Grafik lama
-        updateSummary(data);
-        drawCharts(data);
-        renderRekap(data.rekapHariIni);
+function drawCharts(data) {
+    // Default tab pengeluaran
+    switchTab('pengeluaran');
 
-        // UPDATE BAGIAN BARU: Monthly Breakdown
-        updateMonthlyBreakdown(data);
-        
-    } catch (error) {
-        console.error(error);
-    } finally {
-        showLoading(false);
-    }
+    // Bar Chart
+    const canvasBar = document.getElementById('barChart');
+    if (!canvasBar) return;
+    if (currentBarChart) currentBarChart.destroy();
+
+    currentBarChart = new Chart(canvasBar.getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: (data.itemLabels || []).map((item, index) => [data.itemKategori[index] || '', item]),
+            datasets: [{
+                label: 'Nominal',
+                data: data.itemValues || [],
+                backgroundColor: 'rgba(139, 92, 246, 1)',
+                borderRadius: 4,
+                barThickness: 16
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: { display: false },
+                y: {
+                    grid: { display: false },
+                    ticks: { padding: 10, font: { size: 10 } }
+                }
+            },
+            plugins: { legend: { display: false } }
+        }
+    });
 }
 
 function updateMonthlyBreakdown(data) {
-    // Ambil dari objek monthlyBreakdown yang dikirim GAS
     const mb = data.monthlyBreakdown;
     if (!mb) return;
-
-    const inc = mb.income || 0;
-    const exp = mb.expense || 0;
-    const max = Math.max(inc, exp) || 1;
-
-    document.getElementById('breakdownInText').innerText = 'Rp. ' + inc.toLocaleString('id-ID');
-    document.getElementById('breakdownOutText').innerText = 'Rp. ' + exp.toLocaleString('id-ID');
     document.getElementById('monthLabel').innerText = mb.monthName + " " + mb.year;
-
-    document.getElementById('breakdownInBar').style.width = (inc / max * 100) + '%';
-    document.getElementById('breakdownOutBar').style.width = (exp / max * 100) + '%';
 }
 
 function changeMonth(offset) {
     currentViewDate.setMonth(currentViewDate.getMonth() + offset);
-    fetchData(); // Refresh data berdasarkan bulan baru
+    fetchData();
 }
 </script>
 </body>
 </html>
- <!--     <div class="mt-2 pt-2 border-t border-gray-100">
-        <div class="flex justify-between items-center">
-          <span class="text-base font-semibold text-gray-600">Total Hari Ini:</span>
-          <span id="totalHariIni" class="text-lg font-bold text-red-500">Rp. 0</span>
-        </div>
-      </div>-->
