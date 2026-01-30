@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <style>
-  @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
-  @import "tailwindcss";
-  @theme {--font-inter: "Inter", sans-serif;--font-weight-extrabold: 800;--font-weight-black: 900;--font-weight-semibold: 600;--font-weight-bold: 700;}
-  </style>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -16,9 +12,9 @@
   <div class="max-w-md mx-auto">
     
    
-    <div class="p-4 mb-4 text-white font-[Inter]">
+    <div class="p-4 mb-4 text-white font-sans">
       <p class="text-xs font-semibold uppercase tracking-widest mb-1 opacity-90 text-center">Total Pengeluaran Bulan Ini</p>
-      <h1 id="totalBulanIni" class="text-4xl font-extrabold leading-none text-center">Rp. 0</h1>
+      <h1 id="totalBulanIni" class="text-4xl font-bold leading-none text-center">Rp. 0</h1>
       <p id="namaBulan" class="text-sm mt-2 opacity-80 text-center">Loading...</p>
     </div>
 
@@ -27,7 +23,7 @@
       <h3 class="text-lg font-bold mb-3 flex items-center">
         <span class="w-2 h-4 bg-red-500 rounded-full mr-2 hidden"></span> Pengeluaran Hari Ini
       </h3>
-        <span id="totalHariIni" class="text-2xl font-semibold text-red-500 mb-2">Rp. 0</span>
+        <span id="totalHariIni" class="text-xl font-semibold text-red-500 mb-2">Rp. 0</span>
       <div id="rekapHariIni" class="-space-y-2">
         <p class="text-gray-400 text-sm mt-2">Memuat data...</p>
       </div>
