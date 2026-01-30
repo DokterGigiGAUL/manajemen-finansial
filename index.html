@@ -123,6 +123,7 @@
       
       const skrg = new Date();
       const formatBulan = skrg.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+      if (elNamaBulan) elNamaBulan.innerText = skrg.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
       if (elNamaBulanGrafik) elNamaBulanGrafik.innerText = "Bulan " + formatBulan; // Set label grafik
     }
 
@@ -148,7 +149,7 @@
           responsive: false,
           maintainAspectRatio: false,
           plugins: {
-            legend: { position: 'bottom', labels: { usePointStyle: false, padding: 10, font: { size: 12 } } }
+            legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'rectRounded', padding: 10, font: { size: 12 } } }
           }
         }
       });
