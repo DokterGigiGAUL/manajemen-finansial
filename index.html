@@ -123,7 +123,7 @@
       const skrg = new Date();
       const formatBulan = skrg.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
       if (elNamaBulan) elNamaBulan.innerText = skrg.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
-      if (elNamaBulan) elNamaBulan.innerText = skrg.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+      if (elNamaBulan2) elNamaBulan.innerText = skrg.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
       if (elNamaBulanGrafik) elNamaBulanGrafik.innerText = "Bulan " + formatBulan; // Set label grafik
     }
 
@@ -145,7 +145,7 @@
           }]
         },
         options: {
-          cutout: '50%',
+          cutout: '80%',
           responsive: false,
           maintainAspectRatio: true,
           plugins: {
