@@ -30,10 +30,8 @@
     </div>
 
     <div class="bg-white rounded-3xl p-4 shadow-sm border border-gray-100 mb-5">
-      <h3 class="text-lg font-bold mb-3 flex items-center">
-        Rekapitulasi Bulanan 
-      </h3>
-            <p id="namaBulan" class="text-sm mt-1 mb-3 opacity-90 text-center text-grey-400">...</p>
+      <h3 class="text-lg font-bold mb-3 flex items-center">Rekapitulasi Bulanan</h3>
+      <p id="namaBulan" class="text-sm mt-1 mb-3 opacity-90 text-center text-grey-400">Loading...</p>
   <div class="flex bg-gray-300 border-gray-300 border-1 mb-8 rounded-lg w-64 mx-auto">
     <button id="tabPengeluaran" onclick="switchTab('pengeluaran')" class="flex text-sm text-gray-600 font-semibold border-gray-300 border-2 transition-all bg-white rounded-lg py-1 w-32 justify-center"> 
       Pengeluaran
@@ -43,7 +41,7 @@
     </button>
   </div>
   
-  <div class="aspect-[4/5] relative">
+  <div class="aspect-square relative">
     <canvas id="pieChart"></canvas>
   </div>
 </div>
