@@ -307,48 +307,58 @@ function tutupHalamanRekap() {
 // Menampilkan list rekapan seperti screenshot
 function renderRekapDetail() {
   const container = document.getElementById('isiRekapDetail');
-  const data = dataTerakhir; // Mengambil data yang disimpan di Langkah 2
+  const data = dataTerakhir; 
 
   if (!data) return;
 
+  const skrg = new Date();
+  const namaBulan = skrg.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
   let htmlContent = "";
 
-  // A. BAGIAN PEMASUKAN
-  htmlContent += `<h3 class="text-emerald-700 font-bold text-sm mb-3 mt-2 uppercase tracking-wider">Pemasukan Bulan Ini</h3>`;
-  if (data.listPemasukan && data.listPemasukan.length > 0) {
-    data.listPemasukan.forEach(item => {
+  // --- A. BAGIAN PEMASUKAN ---
+  htmlContent += `<h3 class="text-emerald-700 font-bold text-sm mb-3 mt-2 uppercase">Pemasukan Bulan ${namaBulan}</h3>`;
+  
+  let totalMasuk = 0;
+  if (data.pemasukanLabels && data.pemasukanLabels.length > 0) {
+    data.pemasukanLabels.forEach((label, index) => {
+      const nominal = data.pemasukanValues[index];
+      totalMasuk += nominal;
       htmlContent += `
-        <div class="bg-white p-3 rounded-2xl shadow-sm flex justify-between items-center border-l-4 border-emerald-500 mb-2">
-          <div class="flex flex-col">
-            <span class="text-gray-800 font-bold text-sm">${item.Item}</span>
-            <span class="text-[9px] text-gray-400 mt-1">${item.Tanggal} | ${item.Kategori}</span>
-          </div>
-          <div class="text-right">
-            <span class="font-bold text-emerald-600 text-sm">Rp ${item.Nominal.toLocaleString('id-ID')}</span>
-          </div>
+        <div class="flex justify-between items-center mb-1 text-sm border-b border-gray-100 pb-1">
+          <span class="text-gray-700">${label}</span>
+          <span class="font-medium text-gray-900 text-right">Rp ${nominal.toLocaleString('id-ID')}</span>
         </div>`;
     });
+    htmlContent += `
+      <div class="flex justify-between items-center mt-2 pt-2 border-t-2 border-emerald-500 font-bold text-emerald-700">
+        <span>TOTAL PEMASUKAN</span>
+        <span>Rp ${totalMasuk.toLocaleString('id-ID')}</span>
+      </div>`;
   } else {
-    htmlContent += `<p class="text-[10px] text-gray-400 italic text-center py-4">Tidak ada data pemasukan</p>`;
+    htmlContent += `<p class="text-xs text-gray-400 italic">Tidak ada data pemasukan</p>`;
   }
 
-  // B. BAGIAN PENGELUARAN
-  htmlContent += `<h3 class="text-sky-800 font-bold text-sm mb-3 mt-6 uppercase tracking-wider">Pengeluaran Bulan Ini</h3>`;
-  if (data.listPengeluaran && data.listPengeluaran.length > 0) {
-    data.listPengeluaran.forEach(item => {
+  // --- B. BAGIAN PENGELUARAN ---
+  htmlContent += `<h3 class="text-rose-700 font-bold text-sm mb-3 mt-8 uppercase">Pengeluaran Bulan ${namaBulan}</h3>`;
+  
+  let totalKeluar = 0;
+  if (data.kategoriLabels && data.kategoriLabels.length > 0) {
+    data.kategoriLabels.forEach((label, index) => {
+      const nominal = data.kategoriValues[index];
+      totalKeluar += nominal;
       htmlContent += `
-        <div class="bg-white p-3 rounded-2xl shadow-sm flex justify-between items-center border-l-4 border-sky-600 mb-2">
-          <div class="flex flex-col">
-            <span class="text-gray-800 font-bold text-sm">${item.Item}</span>
-            <span class="text-[9px] text-gray-400 mt-1">${item.Tanggal} | ${item.Kategori}</span>
-          </div>
-          <div class="text-right">
-            <span class="font-bold text-gray-900 text-sm">Rp ${item.Nominal.toLocaleString('id-ID')}</span>
-          </div>
+        <div class="flex justify-between items-center mb-1 text-sm border-b border-gray-100 pb-1">
+          <span class="text-gray-700">${label}</span>
+          <span class="font-medium text-gray-900 text-right">Rp ${nominal.toLocaleString('id-ID')}</span>
         </div>`;
     });
+    htmlContent += `
+      <div class="flex justify-between items-center mt-2 pt-2 border-t-2 border-rose-600 font-bold text-rose-700">
+        <span>TOTAL PENGELUARAN</span>
+        <span>Rp ${totalKeluar.toLocaleString('id-ID')}</span>
+      </div>`;
   } else {
-    htmlContent += `<p class="text-[10px] text-gray-400 italic text-center py-4">Tidak ada data pengeluaran</p>`;
+    htmlContent += `<p class="text-xs text-gray-400 italic">Tidak ada data pengeluaran</p>`;
   }
 
   container.innerHTML = htmlContent;
