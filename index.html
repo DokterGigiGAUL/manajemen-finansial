@@ -296,7 +296,7 @@ function renderListPengeluaran() {
   
   let htmlContent = "";
   sortedList.forEach(item => {
-      const Kategoribersih = item.Kategori.replace(/[^\x00-\x7F]/g, "").trim(); //baru
+      const Kategoribersih = item.Kategori.replace(/[^\x00-\x7F]/g, "").trim(); 
 
     htmlContent += `
       <div class="flex justify-between items-center py-2 border-b border-white last:border-0">
