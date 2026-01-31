@@ -299,10 +299,10 @@ function renderListPengeluaran() {
   //const kategoriBersih = item.Kategori.replace(/[^\x00-\x7F]/g, "").trim(); 
 const kategoriBersih = item.Kategori.replace(/[^\w\s]/gi, '').trim();
     htmlContent += `
-      <div class="flex justify-between items-center py-1 last:border-0">
+      <div class="flex justify-between items-center py-0.5 last:border-0">
         <div class="flex flex-col">
           <span class="text-[14px] font-normal text-gray-800 items-start">• ${kategoriBersih} ${item.Item}</span> 
-          <span class="text-[10px] text-gray-400 items-start">/t/t${item.Tanggal}</span>
+          <span class="text-[10px] text-gray-400 items-start"><span clas="text-white">• </span>${item.Tanggal}</span>
         </div>
         <div class="text-[14px] font-normal text-gray-600">
           Rp. ${item.Nominal.toLocaleString('id-ID')}
