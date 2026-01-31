@@ -76,6 +76,14 @@
 
       <div class="relative aspect-[5/4] w-full mb-4">
         <canvas id="barChart"></canvas>
+        <div class="mt-4 border-t pt-4">
+  <button onclick="toggleListPengeluaran()" class="bg-sky-600 w-full text-center text-xs text-white font-semibold hover:text-sky-800 transition-colors">
+    Riwayat Pengeluaran Lengkap ↓
+  </button>
+</div>
+
+<div id="listPengeluaranDetail" class="hidden mt-4 space-y-2">
+  </div>
       </div>
     </div>
   </div>
@@ -265,6 +273,47 @@ let dataTerakhir = null;
       });
     }
 
+      // Fungsi untuk menampilkan/menyembunyikan list
+function toggleListPengeluaran() {
+  const container = document.getElementById('listPengeluaranDetail');
+  if (container.classList.contains('hidden')) {
+    renderListPengeluaran(); // Isi data dulu sebelum ditampilkan
+    container.classList.remove('hidden');
+  } else {
+    container.classList.add('hidden');
+  }
+}
+
+// Fungsi untuk merender list pengeluaran tanpa card
+function renderListPengeluaran() {
+  const container = document.getElementById('listPengeluaranDetail');
+  const data = dataTerakhir; // Mengambil data bulan berjalan dari GAS
+
+  if (!data || !data.listPengeluaran) return;
+
+  let htmlContent = "";
+
+  data.listPengeluaran.forEach(item => {
+    htmlContent += `
+      <div class="flex justify-between items-start py-2 border-b border-gray-50 text-[11px]">
+        <div class="flex flex-col flex-1 pr-4">
+          <span class="text-gray-900 font-medium">${item.Item}</span>
+          <span class="text-gray-400 text-[9px]">${item.Tanggal} | ${item.Kategori}</span>
+        </div>
+        <div class="text-right font-bold text-rose-600 whitespace-nowrap">
+          Rp ${item.Nominal.toLocaleString('id-ID')}
+        </div>
+      </div>`;
+  });
+
+  // Jika data kosong
+  if (data.listPengeluaran.length === 0) {
+    htmlContent = `<p class="text-center text-[10px] text-gray-400 py-4 italic">Belum ada riwayat pengeluaran bulan ini</p>`;
+  }
+
+  container.innerHTML = htmlContent;
+}
+      
     function showLoading(show) {
       const l = document.getElementById('loading');
       const m = document.getElementById('mainContent');
