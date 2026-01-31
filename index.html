@@ -291,7 +291,7 @@ function renderListPengeluaran() {
   if (!data || !data.listPengeluaran) return;
 
   // Urutkan berdasarkan tanggal terbaru (descending)
-  const sortedList = [...data.listPengeluaran].reverse();
+  const sortedList = [...data.listPengeluaran];
   
   let htmlContent = "";
   sortedList.forEach(item => {
