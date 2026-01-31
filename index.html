@@ -200,6 +200,12 @@ let dataTerakhir = null;
           plugins: {
             legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'rectRounded', padding: 10, font: { size: 12 } } }
           },
+          layout: {
+        // Adds 20px padding to the top, bottom, left, and right of the chart area
+            padding: {
+              bottom: 30
+            }
+          }
          }
       });
     }
