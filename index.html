@@ -83,7 +83,7 @@
     <script>
       // Letakkan di bagian paling atas script miniapp
 let dataTerakhir = null;
-    const GAS_URL = "https://script.google.com/macros/s/AKfycbym_nljEPd8FkHu9xwBAV2DXTU4H7qR4WtDpm8IdwqFatBQ25DH2nGgRvluzjQHeADXdA/exec"; 
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbzBqdc-bxh88YCPWZ63CcF2xomeFQqgqAXX1k6s6VN6t6k4r9ldtngPrRPsBX0VVUQNxA/exec"; 
     const tg = window.Telegram.WebApp;
     tg.expand();
 
@@ -100,14 +100,12 @@ let dataTerakhir = null;
         let data;
         try {
           data = JSON.parse(text);
+              chartData = data; 
+    dataTerakhir = data; 
         } catch (e) {
           throw new Error("Format data dari GAS salah/error. Cek URL Deployment Anda.");
         }
         
-        chartData = data; 
-// --- TAMBAHKAN BARIS INI ---
-    dataTerakhir = data; 
-  
         updateSummary(data); 
         renderRekap(data.rekapHariIni);
         setTimeout(() => {
@@ -168,9 +166,15 @@ let dataTerakhir = null;
       const canvas = document.getElementById('pieChart');
       if (!canvas) return;
       
-      if (currentPieChart) currentPieChart.destroy();
-      
-      currentPieChart = new Chart(canvas.getContext('2d'), {
+      if (window.currentPieChart) window.currentPieChart.destroy();
+
+  // Jika data kosong, jangan render grafik
+  if (!labels || labels.length === 0) {
+    console.log("Data Pie Chart kosong");
+    return;
+  }
+
+  window.currentPieChart = new Chart(canvas.getContext('2d'), {
         type: 'doughnut',
         data: {
           labels: labels || [],
@@ -303,20 +307,20 @@ function tutupHalamanRekap() {
 // Menampilkan list rekapan seperti screenshot
 function renderRekapDetail() {
   const container = document.getElementById('isiRekapDetail');
-  const data = dataTerakhir; // Mengambil dari dataTerakhir yang sudah diisi saat fetchData
+  const data = dataTerakhir; // Mengambil data yang disimpan di Langkah 2
 
   if (!data) return;
 
   let htmlContent = "";
 
-  // 1. KELOMPOK PEMASUKAN
-  htmlContent += `<h3 class="text-emerald-700 font-bold text-sm mb-3 mt-2 flex items-center tracking-wider uppercase">Pemasukan Bulan Ini</h3>`;
+  // A. BAGIAN PEMASUKAN
+  htmlContent += `<h3 class="text-emerald-700 font-bold text-sm mb-3 mt-2 uppercase tracking-wider">Pemasukan Bulan Ini</h3>`;
   if (data.listPemasukan && data.listPemasukan.length > 0) {
     data.listPemasukan.forEach(item => {
       htmlContent += `
         <div class="bg-white p-3 rounded-2xl shadow-sm flex justify-between items-center border-l-4 border-emerald-500 mb-2">
           <div class="flex flex-col">
-            <span class="text-gray-800 font-bold text-sm leading-tight">${item.Item}</span>
+            <span class="text-gray-800 font-bold text-sm">${item.Item}</span>
             <span class="text-[9px] text-gray-400 mt-1">${item.Tanggal} | ${item.Kategori}</span>
           </div>
           <div class="text-right">
@@ -325,17 +329,17 @@ function renderRekapDetail() {
         </div>`;
     });
   } else {
-    htmlContent += `<p class="text-[10px] text-gray-400 mb-4 italic text-center py-2">Tidak ada data pemasukan</p>`;
+    htmlContent += `<p class="text-[10px] text-gray-400 italic text-center py-4">Tidak ada data pemasukan</p>`;
   }
 
-  // 2. KELOMPOK PENGELUARAN
-  htmlContent += `<h3 class="text-sky-800 font-bold text-sm mb-3 mt-6 flex items-center tracking-wider uppercase">Pengeluaran Bulan Ini</h3>`;
+  // B. BAGIAN PENGELUARAN
+  htmlContent += `<h3 class="text-sky-800 font-bold text-sm mb-3 mt-6 uppercase tracking-wider">Pengeluaran Bulan Ini</h3>`;
   if (data.listPengeluaran && data.listPengeluaran.length > 0) {
     data.listPengeluaran.forEach(item => {
       htmlContent += `
         <div class="bg-white p-3 rounded-2xl shadow-sm flex justify-between items-center border-l-4 border-sky-600 mb-2">
           <div class="flex flex-col">
-            <span class="text-gray-800 font-bold text-sm leading-tight">${item.Item}</span>
+            <span class="text-gray-800 font-bold text-sm">${item.Item}</span>
             <span class="text-[9px] text-gray-400 mt-1">${item.Tanggal} | ${item.Kategori}</span>
           </div>
           <div class="text-right">
@@ -344,7 +348,7 @@ function renderRekapDetail() {
         </div>`;
     });
   } else {
-    htmlContent += `<p class="text-[10px] text-gray-400 italic text-center py-2">Tidak ada data pengeluaran</p>`;
+    htmlContent += `<p class="text-[10px] text-gray-400 italic text-center py-4">Tidak ada data pengeluaran</p>`;
   }
 
   container.innerHTML = htmlContent;
