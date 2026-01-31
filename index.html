@@ -304,8 +304,7 @@ function tutupHalamanRekap() {
 function renderRekapDetail() {
   const container = document.getElementById('isiRekapDetail');
   // Pastikan data itemBulanIni ada (dari fungsi fetch data utama)
-  const items = window.lastData ? window.lastData.itemBulanIni : [];
-
+const items = dataTerakhir ? dataTerakhir.itemBulanIni : [];
   if (!items || items.length === 0) {
     container.innerHTML = '<div class="text-center p-10 text-gray-400">Belum ada data bulan ini</div>';
     return;
