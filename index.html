@@ -91,6 +91,16 @@
 
     async function fetchData() {
       showLoading(true);
+      google.script.run
+    .withSuccessHandler(function(data) {
+      window.lastData = data; 
+    })
+    .withFailureHandler(function(msg) {
+      showSystemError(msg);
+      showLoading(false);
+    })
+    .getFinancialData();
+}
       try {
         const response = await fetch(GAS_URL + '?action=getData');
         const text = await response.text(); // Ambil teks mentah dulu
