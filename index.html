@@ -43,7 +43,7 @@
       <canvas id="pieChart"></canvas>
     </div>
       <div class="flex justify-center -mt-2 mb-6">
-  <button onclick="bukaHalamanRekap()" class="flex items-center gap-2 bg-sky-500 backdrop-blur-sm border border-sky-500 px-6 py-2.5 rounded-full shadow-sm text-white font-semibold text-sm hover:bg-white hover:text-sky-600 transition-all active:scale-95">
+  <button onclick="bukaHalamanRekap()" class="flex items-center mx-auto bg-sky-500 backdrop-blur-sm border border-sky-500 px-6 py-2.5 rounded-full shadow-sm text-white font-semibold text-sm hover:bg-white hover:text-sky-600 transition-all active:scale-95">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
     </svg>
@@ -299,8 +299,8 @@ function renderListPengeluaran() {
     htmlContent += `
       <div class="flex justify-between items-center py-2 border-b border-gray-50 last:border-0">
         <div class="flex flex-col">
-          <span class="text-[11px] font-bold text-gray-800">${item.Item}</span>
-          <span class="text-[9px] text-gray-400">${item.Tanggal} • ${item.Kategori}</span>
+          <span class="text-[14px] font-normal text-gray-800">• ${item.kategori} ${item.Item}</span>
+          <span class="text-[10px] text-gray-400">${item.Tanggal}</span>
         </div>
         <div class="text-[11px] font-bold text-rose-600">
           Rp ${item.Nominal.toLocaleString('id-ID')}
