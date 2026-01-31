@@ -81,6 +81,8 @@
   </div>
 
     <script>
+      // Letakkan di bagian paling atas script miniapp
+let dataTerakhir = null;
     const GAS_URL = "https://script.google.com/macros/s/AKfycbym_nljEPd8FkHu9xwBAV2DXTU4H7qR4WtDpm8IdwqFatBQ25DH2nGgRvluzjQHeADXdA/exec"; 
     const tg = window.Telegram.WebApp;
     tg.expand();
@@ -91,16 +93,6 @@
 
     async function fetchData() {
       showLoading(true);
-      google.script.run
-    .withSuccessHandler(function(data) {
-      window.lastData = data; 
-    })
-    .withFailureHandler(function(msg) {
-      showSystemError(msg);
-      showLoading(false);
-    })
-    .getFinancialData();
-}
       try {
         const response = await fetch(GAS_URL + '?action=getData');
         const text = await response.text(); // Ambil teks mentah dulu
@@ -113,7 +105,9 @@
         }
         
         chartData = data; 
-
+// --- TAMBAHKAN BARIS INI ---
+    dataTerakhir = data; 
+  
         updateSummary(data); 
         renderRekap(data.rekapHariIni);
         setTimeout(() => {
