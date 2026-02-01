@@ -14,27 +14,6 @@
       <p class="text-xs font-semibold uppercase tracking-widest mb-1 opacity-90 text-center">Total Pengeluaran Bulan Ini</p>
       <h1 id="totalBulanIni" class="text-4xl font-bold leading-none text-center">Rp. 0</h1>
       <p id="namaBulan" class="text-sm mt-2 opacity-80 text-center">Loading...</p>
-      <div class="bg-white rounded-2xl p-3 mb-6 shadow-sm border border-gray-100 flex items-center justify-between">
-    <button onclick="changeMonth(-1)" class="p-2 hover:bg-gray-100 rounded-full transition text-gray-600">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-    </button>
-    
-    <div class="flex space-x-2 items-center">
-        <select id="selectMonth" onchange="updateByDropdown()" class="text-xs font-bold bg-gray-50 border-none rounded-lg focus:ring-0 cursor-pointer py-1 px-2">
-            <option value="1">Januari</option><option value="2">Februari</option><option value="3">Maret</option>
-            <option value="4">April</option><option value="5">Mei</option><option value="6">Juni</option>
-            <option value="7">Juli</option><option value="8">Agustus</option><option value="9">September</option>
-            <option value="10">Oktober</option><option value="11">November</option><option value="12">Desember</option>
-        </select>
-        
-        <select id="selectYear" onchange="updateByDropdown()" class="text-xs font-bold bg-gray-50 border-none rounded-lg focus:ring-0 cursor-pointer py-1 px-2">
-            </select>
-    </div>
-
-    <button onclick="changeMonth(1)" class="p-2 hover:bg-gray-100 rounded-full transition text-gray-600">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-    </button>
-</div>
     </div>
 
     <!-- Rekap Harian Hari Ini -->
@@ -112,40 +91,6 @@
 
     <script>
       // Letakkan di bagian paling atas script miniapp
-      let currentViewDate = new Date(); // Menyimpan tanggal yang sedang aktif dilihat
-
-// Inisialisasi dropdown tahun dan sinkronisasi nilai
-function initDropdowns() {
-    const yearSelect = document.getElementById('selectYear');
-    const currentYear = new Date().getFullYear();
-    yearSelect.innerHTML = ""; // Bersihkan dulu
-    for (let i = currentYear - 2; i <= currentYear + 1; i++) {
-        const option = document.createElement('option');
-        option.value = i; option.text = i;
-        if (i === currentYear) option.selected = true;
-        yearSelect.appendChild(option);
-    }
-    updateDropdownValues();
-}
-
-function updateDropdownValues() {
-    document.getElementById('selectMonth').value = currentViewDate.getMonth() + 1;
-    document.getElementById('selectYear').value = currentViewDate.getFullYear();
-}
-
-function changeMonth(delta) {
-    currentViewDate.setMonth(currentViewDate.getMonth() + delta);
-    updateDropdownValues();
-    fetchData(); // Ambil data baru berdasarkan bulan yang berubah
-}
-
-function updateByDropdown() {
-    const m = document.getElementById('selectMonth').value;
-    const y = document.getElementById('selectYear').value;
-    currentViewDate = new Date(y, m - 1, 1);
-    fetchData();
-}
-      
 let dataTerakhir = null;
     const GAS_URL = "https://script.google.com/macros/s/AKfycbzBqdc-bxh88YCPWZ63CcF2xomeFQqgqAXX1k6s6VN6t6k4r9ldtngPrRPsBX0VVUQNxA/exec"; 
     const tg = window.Telegram.WebApp;
@@ -155,21 +100,12 @@ let dataTerakhir = null;
     let currentPieChart = null;
     let currentBarChart = null; // Tambahkan ini untuk tracking bar chart
 
-async function fetchData() {
-  showLoading();
-  try {
-    const month = currentViewDate.getMonth() + 1;
-    const year = currentViewDate.getFullYear();
-    
-    // Perhatikan penambahan parameter action, month, dan year di URL
-    const response = await fetch(`${GAS_URL}?action=getData&month=${month}&year=${year}`);
-    const data = await response.json();
-        // Pastikan baris pengisian ID ini ada dan benar:
-if (data) {
-  document.getElementById('totalBulanIni').innerText = 'Rp. ' + (data.totalBulanIni || 0).toLocaleString('id-ID');
-  // Update juga teks bulannya agar sesuai pilihan
-  document.getElementById('namaBulan').innerText = `Data Bulan ${month} - ${year}`;
-}
+    async function fetchData() {
+      showLoading(true);
+      try {
+        const response = await fetch(GAS_URL + '?action=getData');
+        const text = await response.text(); // Ambil teks mentah dulu
+        
         let data;
         try {
           data = JSON.parse(text);
@@ -369,7 +305,7 @@ const kategoriBersih = item.Kategori.replace(/[^\w\s]/gi, '').trim();
           <span class="text-[14px] font-normal text-gray-800">• ${kategoriBersih} ${item.Item}</span> 
           <span class="text-[10px] text-gray-400"><span class="text-white">•• </span>${item.Tanggal}</span>
         </div>
-        <div class="text-[14px] font-normal text-gray-600 items-start w-1/3 text-right">
+        <div class="text-[14px] font-normal text-gray-600 items-start">
           Rp. ${item.Nominal.toLocaleString('id-ID')}
         </div>
       </div>`;
@@ -480,9 +416,6 @@ function renderRekapDetail() {
 
   container.innerHTML = htmlContent;
 }
-      // --- LOKASI BARIS PALING BAWAH ---
-initDropdowns();
-fetchData();
 </script>
 </body>
 </html>
