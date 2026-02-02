@@ -199,7 +199,8 @@ let dataTerakhir = null;
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'rectRounded', padding: 10, font: { size: 12 } } }
+            legend: { position: 'bottom', padding: 20,
+              labels: { usePointStyle: true, pointStyle: 'rectRounded', padding: 10, font: { size: 12 }, box-width: 60 } }
           },
           layout: {
         // Adds 20px padding to the top, bottom, left, and right of the chart area
@@ -256,7 +257,7 @@ let dataTerakhir = null;
           scales: {
             x: { 
           display: true,
-          grid: { display: false },
+          grid: { display: true },
           ticks: {
             font: { size: 10 },
             callback: function(value) {
