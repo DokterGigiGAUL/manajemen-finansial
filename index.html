@@ -69,6 +69,7 @@
         </button>
       </div>
 
+      <!-- HALAMAN REKAP DETAIL DENGAN FITUR PENCARIAN -->
       <div id="halamanRekap" class="fixed inset-0 bg-neutral-100 z-50 translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto hidden">
         <div class="p-6">
           <button onclick="tutupHalamanRekap()" class="flex items-center text-sky-500 font-normal mb-6 active:scale-95">
@@ -79,6 +80,65 @@
           </button>
 
           <h2 class="text-2xl font-bold text-gray-800 mb-4">Rekap Transaksi</h2>
+          
+          <!-- FITUR PENCARIAN -->
+          <div class="bg-white rounded-2xl p-4 mb-4 shadow-sm">
+            <!-- Search Box -->
+            <div class="mb-3">
+              <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="Search" 
+                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 text-sm"
+                oninput="applyFilters()"
+              />
+            </div>
+            
+            <!-- Filter Dropdowns -->
+            <div class="grid grid-cols-2 gap-3 mb-3">
+              <!-- Type Filter -->
+              <div class="relative">
+                <select 
+                  id="typeFilter" 
+                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 appearance-none bg-white text-sm font-medium"
+                  onchange="applyFilters()"
+                >
+                  <option value="all">Type</option>
+                  <option value="expense">− Pengeluaran</option>
+                  <option value="income">+ Pemasukan</option>
+                </select>
+                <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+
+              <!-- Category Filter -->
+              <div class="relative">
+                <select 
+                  id="categoryFilter" 
+                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 appearance-none bg-white text-sm font-medium"
+                  onchange="applyFilters()"
+                >
+                  <option value="all">Category</option>
+                </select>
+                <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Reset Button -->
+            <div class="flex justify-end">
+              <button 
+                onclick="resetFilters()" 
+                class="text-sky-500 font-semibold text-sm px-4 py-1 hover:bg-sky-50 rounded-lg transition-all active:scale-95"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+
+          <!-- Hasil Pencarian -->
           <div id="isiRekapDetail" class="space-y-3">
             <p class="text-center text-gray-500 py-10">Memuat data...</p>
           </div>
@@ -90,7 +150,7 @@
     <div class="bg-white rounded-3xl p-4 border border-white">
       <h3 class="text-xl font-bold mb-1 flex items-center">Pengeluaran Terbanyak</h3>
       
-      <!-- TAMBAHAN: Navigasi bulan untuk Pengeluaran Terbanyak -->
+      <!-- Navigasi bulan untuk Pengeluaran Terbanyak -->
       <div class="flex items-center justify-center mt-2 mb-3">
         <button onclick="gantiKebulan(-1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -133,15 +193,15 @@
     let currentBarChart = null;
     
     // Variable untuk tracking bulan yang sedang dilihat
-    let currentMonth = new Date().getMonth(); // 0-11 (Januari = 0)
+    let currentMonth = new Date().getMonth();
     let currentYear = new Date().getFullYear();
 
-    // Fungsi untuk ganti ke bulan sebelumnya atau sesudahnya
+    // Variable untuk data transaksi (untuk filtering)
+    let allTransactions = [];
+
     async function gantiKebulan(arah) {
-      // arah: -1 untuk bulan sebelumnya, +1 untuk bulan sesudahnya
       currentMonth += arah;
       
-      // Handle perubahan tahun
       if (currentMonth > 11) {
         currentMonth = 0;
         currentYear++;
@@ -150,17 +210,14 @@
         currentYear--;
       }
       
-      // Fetch data bulan baru
       await fetchData(currentMonth, currentYear);
     }
 
-    // Fetch data dengan parameter bulan dan tahun
     async function fetchData(bulan = null, tahun = null) {
       showLoading(true);
       try {
         let url = GAS_URL + '?action=getData';
         
-        // Jika bulan dan tahun diberikan, tambahkan ke URL
         if (bulan !== null && tahun !== null) {
           url += `&bulan=${bulan}&tahun=${tahun}`;
         }
@@ -174,13 +231,39 @@
           chartData = data; 
           dataTerakhir = data;
           
-          // Update current month dan year dari response
           if (data.currentMonth !== undefined) {
             currentMonth = data.currentMonth;
           }
           if (data.currentYear !== undefined) {
             currentYear = data.currentYear;
           }
+
+          // Gabungkan data pemasukan dan pengeluaran untuk filtering
+          allTransactions = [];
+          
+          if (data.listPemasukan) {
+            data.listPemasukan.forEach(item => {
+              allTransactions.push({
+                ...item,
+                Type: 'income',
+                TypeLabel: 'Pemasukan'
+              });
+            });
+          }
+          
+          if (data.listPengeluaran) {
+            data.listPengeluaran.forEach(item => {
+              allTransactions.push({
+                ...item,
+                Type: 'expense',
+                TypeLabel: 'Pengeluaran'
+              });
+            });
+          }
+
+          // Populate category dropdown
+          populateCategoryFilter();
+
         } catch (e) {
           throw new Error("Format data dari GAS salah/error. Cek URL Deployment Anda.");
         }
@@ -215,7 +298,6 @@
       if (elBulan) elBulan.innerText = 'Rp. ' + (data.totalBulanIni || 0).toLocaleString('id-ID');
       if (elHari) elHari.innerText = 'Rp. ' + (data.totalHariIni || 0).toLocaleString('id-ID');
       
-      // Gunakan currentMonth dan currentYear untuk menampilkan nama bulan
       const tanggalTampil = new Date(currentYear, currentMonth, 1);
       const formatBulan = tanggalTampil.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
       
@@ -271,6 +353,11 @@
           responsive: true,
           maintainAspectRatio: true,
           cutout: '60%',
+          layout: {
+            padding: {
+              bottom: 15
+            }
+          },
           plugins: {
             legend: {
               display: true,
@@ -413,7 +500,6 @@
       document.body.prepend(errorDiv);
     }
 
-    // Initial load
     fetchData();
 
     let dataGlobal = null;
@@ -436,7 +522,151 @@
       }, 300);
     }
 
-    // Render detail rekap dengan bulan yang sedang dipilih
+    // ========== FITUR PENCARIAN DAN FILTER ==========
+
+    // Populate category dropdown dengan semua kategori unik
+    function populateCategoryFilter() {
+      const categorySelect = document.getElementById('categoryFilter');
+      if (!categorySelect) return;
+
+      // Ambil semua kategori unik
+      const categories = new Set();
+      allTransactions.forEach(item => {
+        const cleanKat = item.Kategori.replace(/[^\w\s]/gi, '').trim();
+        if (cleanKat) categories.add(cleanKat);
+      });
+
+      // Clear existing options kecuali yang pertama
+      categorySelect.innerHTML = '<option value="all">Category</option>';
+      
+      // Sort dan tambahkan ke dropdown
+      Array.from(categories).sort().forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        categorySelect.appendChild(option);
+      });
+    }
+
+    // Apply filters berdasarkan search, type, dan category
+    function applyFilters() {
+      const searchValue = document.getElementById('searchInput').value.toLowerCase();
+      const typeValue = document.getElementById('typeFilter').value;
+      const categoryValue = document.getElementById('categoryFilter').value;
+
+      let filtered = allTransactions.filter(item => {
+        const kategoriBersih = item.Kategori.replace(/[^\w\s]/gi, '').trim().toLowerCase();
+        const itemText = item.Item.toLowerCase();
+        
+        // Filter by search
+        const matchSearch = searchValue === '' || 
+                           itemText.includes(searchValue) || 
+                           kategoriBersih.includes(searchValue);
+        
+        // Filter by type
+        const matchType = typeValue === 'all' || item.Type === typeValue;
+        
+        // Filter by category
+        const matchCategory = categoryValue === 'all' || 
+                             kategoriBersih === categoryValue.toLowerCase();
+        
+        return matchSearch && matchType && matchCategory;
+      });
+
+      // Render hasil filter
+      renderFilteredResults(filtered);
+    }
+
+    // Reset semua filter
+    function resetFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('typeFilter').value = 'all';
+      document.getElementById('categoryFilter').value = 'all';
+      
+      renderRekapDetail();
+    }
+
+    // Render hasil pencarian/filter
+    function renderFilteredResults(transactions) {
+      const container = document.getElementById('isiRekapDetail');
+      if (!container) return;
+
+      if (transactions.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-10">
+            <svg class="mx-auto h-12 w-12 text-gray-400 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p class="text-gray-500 text-sm">Tidak ada transaksi yang cocok dengan filter</p>
+          </div>`;
+        return;
+      }
+
+      // Group by type
+      const income = transactions.filter(t => t.Type === 'income');
+      const expense = transactions.filter(t => t.Type === 'expense');
+
+      const tanggalTampil = new Date(currentYear, currentMonth, 1);
+      const namaBulan = tanggalTampil.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+      
+      let htmlContent = "";
+
+      // Pemasukan
+      if (income.length > 0) {
+        htmlContent += `<h3 class="text-gray-700 font-bold text-sm mb-3 mt-2">Pemasukan (${income.length} transaksi)</h3>`;
+        
+        let totalMasuk = 0;
+        income.forEach(item => {
+          const kategoriBersih = item.Kategori.replace(/[^\w\s]/gi, '').trim();
+          totalMasuk += item.Nominal;
+          htmlContent += `
+            <div class="flex justify-between items-center mb-1 text-sm border-b border-gray-100 pb-2">
+              <div class="flex flex-col">
+                <span class="text-gray-800 font-medium">${kategoriBersih}</span>
+                <span class="text-xs text-gray-500">${item.Item}</span>
+                <span class="text-xs text-gray-400">${item.Tanggal}</span>
+              </div>
+              <span class="font-semibold text-emerald-600 text-right">Rp. ${item.Nominal.toLocaleString('id-ID')}</span>
+            </div>`;
+        });
+        
+        htmlContent += `
+          <div class="flex justify-between items-center mt-2 pt-2 border-t-2 border-gray-500 font-bold text-emerald-700 mb-8">
+            <span>Total Pemasukan</span>
+            <span>Rp. ${totalMasuk.toLocaleString('id-ID')}</span>
+          </div>`;
+      }
+
+      // Pengeluaran
+      if (expense.length > 0) {
+        htmlContent += `<h3 class="text-gray-700 font-bold text-sm mb-3 mt-6">Pengeluaran (${expense.length} transaksi)</h3>`;
+        
+        let totalKeluar = 0;
+        expense.forEach(item => {
+          const kategoriBersih = item.Kategori.replace(/[^\w\s]/gi, '').trim();
+          totalKeluar += item.Nominal;
+          htmlContent += `
+            <div class="flex justify-between items-center mb-1 text-sm border-b border-gray-100 pb-2">
+              <div class="flex flex-col">
+                <span class="text-gray-800 font-medium">${kategoriBersih}</span>
+                <span class="text-xs text-gray-500">${item.Item}</span>
+                <span class="text-xs text-gray-400">${item.Tanggal}</span>
+              </div>
+              <span class="font-semibold text-rose-600 text-right">Rp. ${item.Nominal.toLocaleString('id-ID')}</span>
+            </div>`;
+        });
+        
+        htmlContent += `
+          <div class="flex justify-between items-center mt-2 pt-2 border-t-2 border-rose-600 font-bold text-rose-700">
+            <span>Total Pengeluaran</span>
+            <span>Rp. ${totalKeluar.toLocaleString('id-ID')}</span>
+          </div>`;
+      }
+
+      container.innerHTML = htmlContent;
+    }
+
+    // Render detail rekap (tampilan default tanpa filter)
     function renderRekapDetail() {
       const container = document.getElementById('isiRekapDetail');
       const data = dataTerakhir; 
@@ -447,7 +677,7 @@
       const namaBulan = tanggalTampil.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
       let htmlContent = "";
 
-      // --- A. BAGIAN PEMASUKAN ---
+      // Pemasukan
       htmlContent += `<h3 class="text-gray-700 font-bold text-sm mb-3 mt-2 titlecase">Pemasukan Bulan ${namaBulan}</h3>`;
       
       let totalMasuk = 0;
@@ -470,7 +700,7 @@
         htmlContent += `<p class="text-xs text-gray-400 italic mb-8">Tidak ada data pemasukan</p>`;
       }
 
-      // --- B. BAGIAN PENGELUARAN ---
+      // Pengeluaran
       htmlContent += `<h3 class="text-gray-700 font-bold text-sm mb-3 mt-8 titlecase">Pengeluaran Bulan ${namaBulan}</h3>`;
       
       let totalKeluar = 0;
