@@ -172,26 +172,7 @@
     }
       
     function updatePieChart(labels, values, color) {
-      const legendMarginPlugin = {
-  id: 'legendMargin',
-  beforeInit(chart) {
-    if (chart.options.plugins.legend.position === 'bottom') {
-      const originalFit = chart.legend.fit;
-      chart.legend.fit = function() {
-        originalFit.call(this);
-        this.top += 30; // margin-top 30px untuk legend bottom
-        this.height += 30;
-      }
-    }
-    if (chart.options.plugins.legend.position === 'top') {
-      const originalFit = chart.legend.fit;
-      chart.legend.fit = function() {
-        originalFit.call(this);
-        this.height += 30; // margin-bottom 30px untuk legend top
-      }
-    }
-  }
-};
+      
       const canvas = document.getElementById('pieChart');
       if (!canvas) return;
       
@@ -229,7 +210,6 @@
             }
           }
          }
-          plugins: [legendMarginPlugins]
       });
     }
 
