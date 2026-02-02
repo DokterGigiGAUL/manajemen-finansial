@@ -29,9 +29,9 @@
 
     <!-- Grafik Rekap Bulanan -->
     <div class="bg-white rounded-3xl p-4 mb-6">
-      <h3 class="text-lg font-bold mb-3 flex items-center">Rekapitulasi Bulanan</h3>
+      <h3 class="text-xl font-bold mb-3 flex items-center">Rekapitulasi Bulanan</h3>
       
-      <!-- MODIFIKASI: Tambahkan navigasi bulan -->
+      <!-- Navigasi bulan untuk Rekapitulasi -->
       <div class="flex items-center justify-center mb-3">
         <button onclick="gantiKebulan(-1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -57,7 +57,7 @@
         </button>
       </div>
   
-      <div class="aspect-square relative w-full pb-6">
+      <div class="aspect-square relative w-full">
         <canvas id="pieChart"></canvas>
       </div>
       <div class="flex justify-center -mt-2 mb-6">
@@ -88,11 +88,26 @@
 
     <!-- Grafik Bar - Pengeluaran Terbanyak -->
     <div class="bg-white rounded-3xl p-4 border border-white">
-      <h3 class="text-lg font-bold mb-1 flex items-center">Pengeluaran Terbanyak</h3>
-      <h3 id="namaBulanGrafik" class="text-base font-medium mb-2 flex items-center text-gray-500">
-      </h3>
+      <h3 class="text-xl font-bold mb-1 flex items-center">Pengeluaran Terbanyak</h3>
+      
+      <!-- TAMBAHAN: Navigasi bulan untuk Pengeluaran Terbanyak -->
+      <div class="flex items-center justify-center mt-2 mb-3">
+        <button onclick="gantiKebulan(-1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        
+        <p id="namaBulanGrafik" class="text-base font-medium mx-4 min-w-[180px] text-center text-gray-500"></p>
+        
+        <button onclick="gantiKebulan(1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
 
-      <div class="relative aspect-[3/2] w-full mb-4">
+      <div class="relative aspect-[5/4] w-full mb-4">
         <canvas id="barChart"></canvas>
       </div>
       
@@ -100,7 +115,7 @@
         <button onclick="toggleListPengeluaran()" class="flex items-center mx-auto bg-sky-500 backdrop-blur-sm border border-sky-500 px-6 py-2.5 rounded-full shadow-sm text-white font-semibold text-sm hover:bg-white hover:text-sky-600 transition-all active:scale-95">
           Riwayat Pengeluaran Lengkap ↓
         </button>
-        <div id="listPengeluaranDetail" class="hidden mt-4 space-y-2 max-h-60 overflow-y-auto pr-2 pt-2 pb-3">
+        <div id="listPengeluaranDetail" class="hidden mt-4 space-y-2 max-h-80 overflow-y-auto pr-2 pt-2 pb-3">
         </div>
       </div>
     </div>
@@ -117,11 +132,11 @@
     let currentPieChart = null;
     let currentBarChart = null;
     
-    // TAMBAHAN: Variable untuk tracking bulan yang sedang dilihat
+    // Variable untuk tracking bulan yang sedang dilihat
     let currentMonth = new Date().getMonth(); // 0-11 (Januari = 0)
     let currentYear = new Date().getFullYear();
 
-    // FUNGSI BARU: Ganti ke bulan sebelumnya atau sesudahnya
+    // Fungsi untuk ganti ke bulan sebelumnya atau sesudahnya
     async function gantiKebulan(arah) {
       // arah: -1 untuk bulan sebelumnya, +1 untuk bulan sesudahnya
       currentMonth += arah;
@@ -139,7 +154,7 @@
       await fetchData(currentMonth, currentYear);
     }
 
-    // MODIFIKASI: Tambahkan parameter bulan dan tahun
+    // Fetch data dengan parameter bulan dan tahun
     async function fetchData(bulan = null, tahun = null) {
       showLoading(true);
       try {
@@ -200,7 +215,7 @@
       if (elBulan) elBulan.innerText = 'Rp. ' + (data.totalBulanIni || 0).toLocaleString('id-ID');
       if (elHari) elHari.innerText = 'Rp. ' + (data.totalHariIni || 0).toLocaleString('id-ID');
       
-      // MODIFIKASI: Gunakan currentMonth dan currentYear untuk menampilkan nama bulan
+      // Gunakan currentMonth dan currentYear untuk menampilkan nama bulan
       const tanggalTampil = new Date(currentYear, currentMonth, 1);
       const formatBulan = tanggalTampil.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
       
@@ -209,7 +224,7 @@
         elNamaBulan.innerText = skrg.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
       }
       if (elNamaBulan2) elNamaBulan2.innerText = formatBulan;
-      if (elNamaBulanGrafik) elNamaBulanGrafik.innerText = "Bulan " + formatBulan;
+      if (elNamaBulanGrafik) elNamaBulanGrafik.innerText = formatBulan;
     }
 
     function renderRekap(rekap) {
@@ -421,7 +436,7 @@
       }, 300);
     }
 
-    // MODIFIKASI: Update renderRekapDetail untuk menggunakan currentMonth dan currentYear
+    // Render detail rekap dengan bulan yang sedang dipilih
     function renderRekapDetail() {
       const container = document.getElementById('isiRekapDetail');
       const data = dataTerakhir; 
@@ -433,7 +448,7 @@
       let htmlContent = "";
 
       // --- A. BAGIAN PEMASUKAN ---
-      htmlContent += `<h3 class="text-gray-700 font-semibold text-lg mb-3 mt-2 py-1 titlecase">Pemasukan Bulan ${namaBulan}</h3>`;
+      htmlContent += `<h3 class="text-gray-700 font-bold text-sm mb-3 mt-2 titlecase">Pemasukan Bulan ${namaBulan}</h3>`;
       
       let totalMasuk = 0;
       if (data.pemasukanLabels && data.pemasukanLabels.length > 0) {
@@ -441,13 +456,13 @@
           const nominal = data.pemasukanValues[index];
           totalMasuk += nominal;
           htmlContent += `
-            <div class="flex justify-between items-center text-normal">
+            <div class="flex justify-between items-center mb-1 text-sm border-b border-gray-100 pb-1">
               <span class="text-gray-700">${label}</span>
               <span class="font-medium text-gray-900 text-right">Rp. ${nominal.toLocaleString('id-ID')}</span>
             </div>`;
         });
         htmlContent += `
-          <div class="flex justify-between items-center mt-2 pt-2 border-t-2 border-gray-500 font-semibold text-emerald-700 mb-8">
+          <div class="flex justify-between items-center mt-2 pt-2 border-t-2 border-gray-500 font-bold text-emerald-700 mb-8">
             <span>Total Pemasukan</span>
             <span>Rp. ${totalMasuk.toLocaleString('id-ID')}</span>
           </div>`;
@@ -456,7 +471,7 @@
       }
 
       // --- B. BAGIAN PENGELUARAN ---
-      htmlContent += `<h3 class="text-gray-700 font-semibold text-lg mb-3 pt-4 pb-2 titlecase">Pengeluaran Bulan ${namaBulan}</h3>`;
+      htmlContent += `<h3 class="text-gray-700 font-bold text-sm mb-3 mt-8 titlecase">Pengeluaran Bulan ${namaBulan}</h3>`;
       
       let totalKeluar = 0;
       if (data.kategoriLabels && data.kategoriLabels.length > 0) {
@@ -464,13 +479,13 @@
           const nominal = data.kategoriValues[index];
           totalKeluar += nominal;
           htmlContent += `
-            <div class="flex justify-between items-center text-normal">
+            <div class="flex justify-between items-center mb-1 text-sm border-b border-gray-100 pb-1">
               <span class="text-gray-700">${label}</span>
               <span class="font-medium text-gray-900 text-right">Rp. ${nominal.toLocaleString('id-ID')}</span>
             </div>`;
         });
         htmlContent += `
-          <div class="flex justify-between items-center mt-2 pt-2 border-t-2 border-rose-600 font-semibold text-rose-700">
+          <div class="flex justify-between items-center mt-2 pt-2 border-t-2 border-rose-600 font-bold text-rose-700">
             <span>Total Pengeluaran</span>
             <span>Rp. ${totalKeluar.toLocaleString('id-ID')}</span>
           </div>`;
