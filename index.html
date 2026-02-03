@@ -492,14 +492,14 @@
        // Update perubahan
       if (data.statusPerubahan2 === 'naik') {
         if (elIconPerubahan2) elIconPerubahan2.innerText = '↑';
-        if (elTextPerubaha2n) {
+        if (elTextPerubahan2) {
           elTextPerubahan2.innerText = `Naik ${data.persentasePerubahan2}% dari bulan lalu`;
           elTextPerubahan2.className = 'font-semibold text-emerald-600';
         }
       } else if (data.statusPerubahan2 === 'turun') {
         if (elIconPerubahan2) elIconPerubahan2.innerText = '↓';
         if (elTextPerubahan2) {
-          elTextPerubahan2.innerText = `Turun ${data.persentasePerubahan}% dari bulan lalu`;
+          elTextPerubahan2.innerText = `Turun ${data.persentasePerubahan2}% dari bulan lalu`;
           elTextPerubahan2.className = 'font-semibold text-rose-600';
         }
       } else {
