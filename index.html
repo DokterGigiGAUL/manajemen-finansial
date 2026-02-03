@@ -303,8 +303,8 @@
   <script>
     let dataTerakhir = null;
     const GAS_URL = "https://script.google.com/macros/s/AKfycbzBqdc-bxh88YCPWZ63CcF2xomeFQqgqAXX1k6s6VN6t6k4r9ldtngPrRPsBX0VVUQNxA/exec"; 
-    const tg = window.Telegram.WebApp;
-    tg.expand();
+    const tg = (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : null;
+    if (tg) tg.expand();
 
     let chartData = null; 
     let currentPieChart = null;
