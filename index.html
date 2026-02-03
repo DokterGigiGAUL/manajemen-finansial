@@ -267,23 +267,22 @@
         </button>
       </div>
 
-      <div class="space-y-4">
-  <div class="flex flex-row ">
-        <!-- Tabungan Bulan Ini -->
-        <div class="text-center bg-white rounded-2xl py-2 basis-1/2">
-          <p class="text-sm text-gray-600 mb-1">Pemasukan Bulan Ini</p>
-          <p id="tabunganBulanIni" class="text-lg font-bold text-gray-600">Rp. 0</p>
-        </div>
-          <div class="text-center bg-white rounded-2xl py-2 basis-1/2">
-          <p class="text-sm text-gray-600 mb-1">Pengeluaran Bulan Ini</p>
-          <p id="tabunganBulanIni" class="text-lg font-bold text-gray-600">Rp. 0</p>
-        </div>  
-  </div>
-        <!-- Total Keseluruhan Tabungan -->
         <div class="text-center bg-white rounded-2xl py-2">
-          <p class="text-sm text-gray-600 mb-1">Saldo Tabungan Akhir</p>
+          <p class="text-sm text-gray-500 mb-1">Saldo Terakhir</p>
           <p id="tabunganKeseluruhan" class="text-xl font-bold text-gray-900">Rp. 0</p>
         </div>
+  <div class="flex gap-2 mb-2">
+        <!-- Tabungan Bulan Ini -->
+        <div class="text-center bg-white rounded-2xl py-2 flex-1">
+          <p class="text-sm text-gray-500 mb-1">Pemasukan Bulan Ini</p>
+          <p id="pemasukanTabungan" class="text-lg font-bold text-gray-600">Rp. 0</p>
+        </div>
+          <div class="text-center bg-white rounded-2xl py-2 bflex-1">
+          <p class="text-sm text-gray-500 mb-1">Pengeluaran Bulan Ini</p>
+          <p id="pengeluaranTabungan" class="text-lg font-bold text-gray-600">Rp. 0</p>
+        </div>  
+        <!-- Total Keseluruhan Tabungan -->
+        
   
       </div>
 
@@ -466,9 +465,17 @@
     function updateTabunganCard(data) {
       if (!data) return;
 
+      const elPemasukanTabungan = document.getElementById('pemasukanTabungan');
+      const elPengeluaranTabungan = document.getElementById('pengeluaranTabungan');
       const elTabunganBulanIni = document.getElementById('tabunganBulanIni');
       const elTabunganKeseluruhan = document.getElementById('tabunganKeseluruhan');
 
+      if (elPemasukanTabungan) {
+        elPemasukanTabungan.innerText = 'Rp. ' + (data.pemasukanTabunganBulanIni || 0).toLocaleString('id-ID');
+      }
+      if (elPengeluaranTabungan) {
+        elPengeluaranTabungan.innerText = 'Rp. ' + (data.pengeluaranTabunganBulanIni || 0).toLocaleString('id-ID');
+      }
       if (elTabunganBulanIni) {
         elTabunganBulanIni.innerText = 'Rp. ' + (data.totalTabunganBulanIni || 0).toLocaleString('id-ID');
       }
