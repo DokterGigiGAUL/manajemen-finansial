@@ -148,7 +148,7 @@
           </svg>
         </button>
         
-        <p id="namaBulanGrafik" class="text-base font-medium mx-4 min-w-[180px] text-center text-gray-500"></p>
+        <p id="namaBulanGrafik" class="text-base font-medium mx-4 min-w-[180px] text-center text-gray-700"></p>
         
         <button onclick="gantiKebulan(1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -175,7 +175,7 @@
       <h3 class="text-xl font-bold mb-4 flex items-center">Saldo & Cash Flow</h3>
       
       <!-- Navigasi Bulan -->
-      <div class="flex items-center justify-center mb-4">
+      <div class="flex items-center justify-center mb-2">
         <button onclick="gantiKebulan(-1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -194,7 +194,7 @@
       <!-- Saldo Utama -->
       <div class="text-center mb-2 p-4 border-b border-gray-300">
         <p class="text-sm text-gray-600 mb-1">Saldo Bulan Ini</p>
-        <h2 id="saldoBulanIni" class="text-xl font-bold text-gray-900">Rp. 0</h2>
+        <p id="saldoBulanIni" class="text-2xl font-bold text-gray-900">Rp. 0</p>
         <p id="perubahanSaldo" class="text-sm mt-2">
           <span id="iconPerubahan"></span>
           <span id="textPerubahan" class="font-semibold"></span>
@@ -251,7 +251,7 @@
       </h3>
 
       <!-- Navigasi Bulan untuk Tabungan -->
-      <div class="flex items-center justify-center mb-4">
+      <div class="flex items-center justify-center mb-2">
         <button onclick="gantiKebulan(-1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -269,7 +269,11 @@
 
         <div class="text-center bg-white py-2 mb-2 border-b border-gray-400">
           <p class="text-sm text-gray-500 mb-1">Saldo Terakhir</p>
-          <p id="tabunganKeseluruhan" class="text-xl font-bold text-gray-900 mb-2">Rp. 0</p>
+          <p id="tabunganKeseluruhan" class="text-2xl font-bold text-gray-900 mb-2">Rp. 0</p>
+           <p id="perubahanSaldo" class="text-sm mt-2">
+          <span id="iconPerubahan2"></span>
+          <span id="textPerubahan2" class="font-semibold"></span>
+        </p>
         </div>
   <div class="flex gap-2 mb-2">
         <!-- Tabungan Bulan Ini -->
@@ -469,6 +473,8 @@
       const elPengeluaranTabungan = document.getElementById('pengeluaranTabungan');
       const elTabunganBulanIni = document.getElementById('tabunganBulanIni');
       const elTabunganKeseluruhan = document.getElementById('tabunganKeseluruhan');
+      const elIconPerubahan = document.getElementById('iconPerubahan');
+      const elTextPerubahan = document.getElementById('textPerubahan');
 
       if (elPemasukanTabungan) {
         elPemasukanTabungan.innerText = 'Rp. ' + (data.pemasukanTabunganBulanIni || 0).toLocaleString('id-ID');
