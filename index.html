@@ -811,7 +811,7 @@
         });
         
         htmlContent += `
-          <div class="flex justify-between items-center mt-2 pt-2 px-4 border-t-2 border-gray-500 font-bold text-emerald-700 mb-8">
+          <div class="flex justify-between items-center mt-2 pt-2 px-4 border-t-2 border-gray-400 font-bold text-emerald-700 mb-8">
             <span>Total Pemasukan</span>
             <span>Rp. ${totalMasuk.toLocaleString('id-ID')}</span>
           </div>`;
@@ -863,13 +863,13 @@
           const nominal = data.pemasukanValues[index];
           totalMasuk += nominal;
           htmlContent += `
-            <div class="flex justify-between items-center mb-1 text-sm pb-1">
-              <span class="text-gray-700">${label}</span>
-              <span class="font-medium text-gray-900 text-right">Rp. ${nominal.toLocaleString('id-ID')}</span>
+            <div class="flex justify-between items-center mb-1 text-base pb-1">
+              <span class="text-gray-700 text-base">${label}</span>
+              <span class="font-normal text-gray-900 text-right text-base">Rp. ${nominal.toLocaleString('id-ID')}</span>
             </div>`;
         });
         htmlContent += `
-          <div class="flex justify-between items-center mt-2 pt-2 border-t-2 border-gray-500 font-bold text-emerald-700 mb-8">
+          <div class="flex justify-between items-center mt-2 pt-2 border-t-2 border-gray-500 font-bold text-emerald-700 mb-8 text-base">
             <span>Total Pemasukan</span>
             <span>Rp. ${totalMasuk.toLocaleString('id-ID')}</span>
           </div>`;
@@ -877,7 +877,7 @@
         htmlContent += `<p class="text-xs text-gray-400 italic mb-8">Tidak ada data pemasukan</p>`;
       }
 
-      htmlContent += `<h3 class="text-gray-700 font-bold text-sm py-2 titlecase">Pengeluaran Bulan ${namaBulan}</h3>`;
+      htmlContent += `<h3 class="text-gray-700 font-bold text-base py-2 titlecase">Pengeluaran Bulan ${namaBulan}</h3>`;
       
       let totalKeluar = 0;
       if (data.kategoriLabels && data.kategoriLabels.length > 0) {
@@ -885,13 +885,13 @@
           const nominal = data.kategoriValues[index];
           totalKeluar += nominal;
           htmlContent += `
-            <div class="flex justify-between items-center mb-1 text-sm">
-              <span class="text-gray-700">${label}</span>
-              <span class="font-medium text-gray-900 text-right">Rp. ${nominal.toLocaleString('id-ID')}</span>
+            <div class="flex justify-between items-center mb-1 text-base pb-1">
+              <span class="text-gray-700 text-base">${label}</span>
+              <span class="font-normal text-gray-900 text-right text-base">Rp. ${nominal.toLocaleString('id-ID')}</span>
             </div>`;
         });
         htmlContent += `
-          <div class="flex justify-between items-center mt-2 pt-2 border-t-2 border-gray-400 font-bold text-rose-700">
+          <div class="flex justify-between items-center mt-2 pt-2 border-t-2 border-gray-400 font-bold text-rose-700 text-base">
             <span>Total Pengeluaran</span>
             <span>Rp. ${totalKeluar.toLocaleString('id-ID')}</span>
           </div>`;
