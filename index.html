@@ -13,7 +13,22 @@
     <div class="p-4 mb-4 text-black font-sans">
       <p class="text-xs font-semibold uppercase tracking-widest mb-1 opacity-90 text-center">Total Pengeluaran Bulan Ini</p>
       <h1 id="totalBulanIni" class="text-4xl font-bold leading-none text-center">Rp. 0</h1>
-      <p id="namaBulan" class="text-sm mt-2 opacity-80 text-center">Loading...</p>
+      <!--<p id="namaBulan" class="text-sm mt-2 opacity-80 text-center">Loading...</p>-->
+      <div class="flex items-center justify-center mb-3">
+        <button onclick="gantiKebulan(-1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12l14 0 M5 12l6 6 M5 12l6 -6" />
+          </svg>
+        </button>
+        
+        <p id="namaBulan2" class="text-base font-semibold mx-4 min-w-[180px] text-center text-gray-600"></p>
+        
+        <button onclick="gantiKebulan(1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12l14 0 M13 18l6 -6 M13 6l6 6" />
+          </svg>
+        </button>
+      </div>
     </div>
 
     <!-- Rekap Harian Hari Ini -->
