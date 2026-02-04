@@ -38,10 +38,10 @@
           </svg>
         </button>
         
-        <p id="namaBulan2" class="text-base font-semibold mx-4 min-w-[180px] text-center text-gray-700"></p>
+        <p id="namaBulan2" class="text-base font-semibold mx-4 min-w-[180px] text-center text-gray-600"></p>
         
         <button onclick="gantiKebulan(1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
           </svg>
         </button>
@@ -70,7 +70,7 @@
 
       <div id="halamanRekap" class="fixed inset-0 bg-neutral-100 z-50 translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto hidden">
         <div class="max-w-md mx-auto p-6">
-          <button onclick="tutupHalamanRekap()" class="flex items-center text-sky-500 font-normal mb-4 active:scale-95">
+          <button onclick="tutupHalamanRekap()" class="flex items-center text-sky-600 text-base font-normal mb-4 active:scale-95">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
             </svg>
@@ -85,7 +85,7 @@
                 type="text" 
                 id="searchInput" 
                 placeholder="Cari" 
-                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 text-sm"
+                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-sky-600 text-sm"
                 oninput="applyFilters()"
               />
             </div>
@@ -94,7 +94,7 @@
               <div class="relative">
                 <select 
                   id="typeFilter" 
-                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 appearance-none bg-white text-base font-medium"
+                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-sky-600 appearance-none bg-white text-base font-medium"
                   onchange="applyFilters()"
                 >
                   <option value="all">Jenis</option>
@@ -109,7 +109,7 @@
               <div class="relative">
                 <select 
                   id="categoryFilter" 
-                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-sky-500 appearance-none bg-white text-base font-medium"
+                  class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-sky-600 appearance-none bg-white text-base font-medium"
                   onchange="applyFilters()"
                 >
                   <option value="all">Kategori</option>
@@ -123,7 +123,7 @@
             <div class="flex justify-end">
               <button 
                 onclick="resetFilters()" 
-                class="text-sky-500 font-semibold text-sm px-4 py-1 hover:bg-sky-50 rounded-lg transition-all active:scale-95"
+                class="text-sky-600 font-semibold text-sm px-4 py-1 hover:bg-sky-50 rounded-lg transition-all active:scale-95"
               >
                 Reset
               </button>
@@ -148,10 +148,10 @@
           </svg>
         </button>
         
-        <p id="namaBulanGrafik" class="text-base font-medium mx-4 min-w-[180px] text-center text-gray-700"></p>
+        <p id="namaBulanGrafik" class="text-base font-medium mx-4 min-w-[180px] text-center text-gray-600"></p>
         
         <button onclick="gantiKebulan(1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
           </svg>
         </button>
@@ -162,7 +162,7 @@
       </div>
       
       <div class="hidden mt-4 border-t pt-4 pb-4">
-        <button onclick="toggleListPengeluaran()" class="flex items-center mx-auto bg-sky-500 backdrop-blur-sm border border-sky-500 px-6 py-2.5 rounded-full shadow-sm text-white font-semibold text-sm hover:bg-white hover:text-sky-600 transition-all active:scale-95">
+        <button onclick="toggleListPengeluaran()" class="flex items-center mx-auto bg-sky-600 backdrop-blur-sm border border-sky-600 px-6 py-2.5 rounded-full shadow-sm text-white font-semibold text-sm hover:bg-white hover:text-sky-600 transition-all active:scale-95">
           Riwayat Pengeluaran Lengkap ↓
         </button>
         <div id="listPengeluaranDetail" class="hidden mt-4 space-y-2 max-h-80 overflow-y-auto pr-2 pt-2 pb-3">
@@ -182,10 +182,10 @@
           </svg>
         </button>
         
-        <p id="namaBulanSaldo" class="text-base font-semibold mx-4 min-w-[180px] text-center text-gray-700"></p>
+        <p id="namaBulanSaldo" class="text-base font-semibold mx-4 min-w-[180px] text-center text-gray-600"></p>
         
         <button onclick="gantiKebulan(1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
           </svg>
         </button>
@@ -258,7 +258,7 @@
           </svg>
         </button>
         
-        <p id="namaBulanTabungan" class="text-base font-semibold mx-4 min-w-[180px] text-center text-gray-700"></p>
+        <p id="namaBulanTabungan" class="text-base font-semibold mx-4 min-w-[180px] text-center text-gray-600"></p>
         
         <button onclick="gantiKebulan(1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -811,7 +811,7 @@
         });
         
         htmlContent += `
-          <div class="flex justify-between items-center mt-2 pt-2 px-4 border-t-2 border-gray-400 font-bold text-emerald-700 mb-8">
+          <div class="flex justify-between items-center mt-2 pt-2 px-4 border-t-2 border-gray-300 font-bold text-emerald-700 mb-8">
             <span>Total Pemasukan</span>
             <span>Rp. ${totalMasuk.toLocaleString('id-ID')}</span>
           </div>`;
@@ -836,7 +836,7 @@
         });
         
         htmlContent += `
-          <div class="flex justify-between items-center mt-2 pt-2 px-4 border-t-2 border-rose-600 font-bold text-rose-700">
+          <div class="flex justify-between items-center mt-2 pt-2 px-4 border-t-2 border-gray-300 font-bold text-rose-700">
             <span>Total Pengeluaran</span>
             <span>Rp. ${totalKeluar.toLocaleString('id-ID')}</span>
           </div>`;
@@ -855,7 +855,7 @@
       const namaBulan = tanggalTampil.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
       let htmlContent = "";
 
-      htmlContent += `<h3 class="text-gray-700 font-bold text-sm my-2 titlecase">Pemasukan Bulan ${namaBulan}</h3>`;
+      htmlContent += `<h3 class="text-gray-700 font-bold text-base my-2 titlecase">Pemasukan Bulan ${namaBulan}</h3>`;
       
       let totalMasuk = 0;
       if (data.pemasukanLabels && data.pemasukanLabels.length > 0) {
@@ -869,7 +869,7 @@
             </div>`;
         });
         htmlContent += `
-          <div class="flex justify-between items-center mt-2 pt-2 border-t-2 border-gray-500 font-bold text-emerald-700 mb-8 text-base">
+          <div class="flex justify-between items-center mt-2 pt-2 border-t-2 border-gray-300 font-bold text-emerald-700 pb-4 text-base">
             <span>Total Pemasukan</span>
             <span>Rp. ${totalMasuk.toLocaleString('id-ID')}</span>
           </div>`;
@@ -891,7 +891,7 @@
             </div>`;
         });
         htmlContent += `
-          <div class="flex justify-between items-center mt-2 pt-2 border-t-2 border-gray-400 font-bold text-rose-700 text-base">
+          <div class="flex justify-between items-center mt-2 pt-2 border-t-2 border-gray-300 font-bold text-rose-700 text-base">
             <span>Total Pengeluaran</span>
             <span>Rp. ${totalKeluar.toLocaleString('id-ID')}</span>
           </div>`;
