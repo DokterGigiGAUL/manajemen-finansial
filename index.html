@@ -13,6 +13,7 @@
   <div class="max-w-md mx-auto">
     <div class="p-4 mb-4 text-black font-sans">
       <p class="text-sm font-semibold uppercase tracking-widest mb-0 opacity-90 text-center">Total Pengeluaran Bulan</p>
+      <!-- Navigasi Bulan -->
       <div class="flex items-center justify-center mb-1">
         <button onclick="gantiKebulan(-1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -47,23 +48,6 @@
     <!-- Grafik Rekap Bulanan -->
     <div class="bg-white rounded-3xl p-4 mb-6">
       <h3 class="text-xl font-bold mb-3 flex items-center">Rekapitulasi Bulanan</h3>
-      
-      <div class="hidden flex items-center justify-center mb-3">
-        <button onclick="gantiKebulan(-1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12l14 0 M5 12l6 6 M5 12l6 -6" />
-          </svg>
-        </button>
-        
-        <p id="namaBulan2" class="text-base font-semibold mx-4 min-w-[180px] text-center text-gray-600"></p>
-        
-        <button onclick="gantiKebulan(1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12l14 0 M13 18l6 -6 M13 6l6 6" />
-          </svg>
-        </button>
-      </div>
-
       <div class="flex bg-gray-300 border-gray-300 border-1 mb-8 rounded-lg w-64 mx-auto">
         <button id="tabPengeluaran" onclick="switchTab('pengeluaran')" class="flex text-sm text-gray-600 font-semibold border-gray-300 border-2 transition-all bg-white rounded-lg py-1 w-32 justify-center"> 
           Pengeluaran
@@ -158,23 +142,6 @@
     <!-- Grafik Bar - Pengeluaran Terbanyak -->
     <div class="hidden bg-white rounded-3xl p-4 mb-6">
       <h3 class="text-xl font-bold mb-1 flex items-center">Pengeluaran Terbanyak</h3>
-      
-      <div class="hidden flex items-center justify-center mt-2 mb-3">
-        <button onclick="gantiKebulan(-1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12l14 0 M5 12l6 6 M5 12l6 -6" />
-          </svg>
-        </button>
-        
-        <p id="namaBulanGrafik" class="text-base font-medium mx-4 min-w-[180px] text-center text-gray-600"></p>
-        
-        <button onclick="gantiKebulan(1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12l14 0 M13 18l6 -6 M13 6l6 6" />
-          </svg>
-        </button>
-      </div>
-
       <div class="relative aspect-[5/3] w-full mb-4">
         <canvas id="barChart"></canvas>
       </div>
@@ -190,25 +157,7 @@
 
     <!-- KARTU BARU: Saldo & Cash Flow -->
     <div class="bg-white rounded-3xl p-4 mb-6">
-      <h3 class="text-xl font-bold mb-4 flex items-center">Saldo & Cash Flow</h3>
-      
-      <!-- Navigasi Bulan -->
-      <div class="hidden flex items-center justify-center mb-2">
-        <button onclick="gantiKebulan(-1)" class="p-2 rounded-full hover:bg-sky-100 active:scale-95 transition-all">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12l14 0 M5 12l6 6 M5 12l6 -6" />
-          </svg>
-        </button>
-        
-        <p id="namaBulanSaldo" class="text-base font-semibold mx-4 min-w-[180px] text-center text-gray-600"></p>
-        
-        <button onclick="gantiKebulan(1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12l14 0 M13 18l6 -6 M13 6l6 6" />
-          </svg>
-        </button>
-      </div>
-
+      <h3 class="text-xl font-bold mb-4 flex items-center">Cash Flow</h3>
       <!-- Saldo Utama -->
       <div class="text-center mb-2 p-4 border-b border-gray-300">
         <p class="text-sm text-gray-600 mb-1">Saldo Bulan Ini</p>
@@ -243,7 +192,7 @@
             <span class="text-gray-700 font-base">Pengeluaran</span>
           </div>
           <span id="totalPengeluaran" class="text-rose-600 font-semibold">Rp. 0</span>
-        </div>
+      </div>
 
         <div class="hidden flex justify-between items-center py-2 pt-4">
           <div class="flex items-center">
@@ -267,24 +216,7 @@
         </svg>
         Tabungan
       </h3>
-
-      <!-- Navigasi Bulan untuk Tabungan -->
-      <div class="hidden flex items-center justify-center mb-2">
-        <button onclick="gantiKebulan(-1)" class="p-2 rounded-full hover:bg-sky-100 active:scale-95 transition-all">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12l14 0 M5 12l6 6 M5 12l6 -6" />
-          </svg>
-        </button>
-        
-        <p id="namaBulanTabungan" class="text-base font-semibold mx-4 min-w-[180px] text-center text-gray-600"></p>
-        
-        <button onclick="gantiKebulan(1)" class="p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-sky-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12l14 0 M13 18l6 -6 M13 6l6 6" />
-          </svg>
-        </button>
-      </div>
-<!-- Total Keseluruhan Tabungan -->
+    <!-- Total Keseluruhan Tabungan -->
         <div class="text-center bg-white p-4 mb-2 border-b border-gray-300">
           <p class="text-sm text-gray-500 mb-1">Saldo Terakhir</p>
           <p id="tabunganKeseluruhan" class="text-2xl font-bold text-gray-900 mb-2">Rp. 0</p>
@@ -293,31 +225,59 @@
           <span id="textPerubahan2" class="font-semibold"></span>
         </p>
         </div>
-  <div class="flex flex-row gap-2 justify-center mb-2">
-        <!-- Tabungan Bulan Ini -->
-        <div class="text-center bg-white rounded-2xl py-2 flex-1">
-          <p class="text-gray-800 mb-1">Pemasukan</p>
-          <div class="flex items-center justify-center">
-          <div class="w-4 h-4 rounded-full bg-emerald-100 flex items-center justify-center mr-3">
+<!-- batas -->
+      <!-- Detail Cash Flow -->
+      <div class="space-y-2">
+        <div class="flex justify-between items-center py-2 border-b border-gray-100 pt-2 pb-1">
+          <div class="flex items-center">
+            <div class="w-4 h-4 rounded-full bg-emerald-100 flex items-center justify-center mr-3">
               <svg class="w-3 h-3 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
               </svg>
             </div>
-          <p id="pemasukanTabungan" class="text-lg font-semibold text-emerald-600">Rp. 0</p>
+            <span class="text-gray-700 font-base">Pemasukan</span>
+          </div>
+          <span id="pemasukanTabungan" class="text-emerald-600 font-semibold">Rp. 0</span>
         </div>
-        </div>
-          <div class="text-center bg-white rounded-2xl py-2 flex-1">
-            <p class="text-gray-800 mb-1">Pengeluaran</p>
-            <div class="flex items-center justify-center">
+
+        <div class="flex justify-between items-center py-2 border-b border-gray-100 pt-1 pb-2">
+          <div class="flex items-center">
             <div class="w-4 h-4 rounded-full bg-rose-100 flex items-center justify-center mr-3">
               <svg class="w-3 h-3 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
               </svg>
             </div>
-          <p id="pengeluaranTabungan" class="text-lg font-semibold text-rose-600">Rp. 0</p>
+            <span class="text-gray-700 font-base">Pengeluaran</span>
+          </div>
+          <span id="pengeluaranTabungan" class="text-rose-600 font-semibold">Rp. 0</span>
+<!-- batas -->
+        <!-- Tabungan Bulan Ini -->
+
+      <div class="flex flex-row gap-2 justify-center mb-2">
+        <div class="text-center bg-white rounded-2xl py-2 flex-1">
+          <p class="text-gray-800 mb-1">Pemasukan</p>
+          <div class="flex items-center justify-center">
+            <div class="w-4 h-4 rounded-full bg-emerald-100 flex items-center justify-center mr-3">
+              <svg class="w-3 h-3 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+              </svg>
+            </div>
+            <p id="pemasukanTabungan" class="text-lg font-semibold text-emerald-600">Rp. 0</p>
+          </div>
         </div>
+          
+        <div class="text-center bg-white rounded-2xl py-2 flex-1">
+          <p class="text-gray-800 mb-1">Pengeluaran</p>
+          <div class="flex items-center justify-center">
+            <div class="w-4 h-4 rounded-full bg-rose-100 flex items-center justify-center mr-3">
+              <svg class="w-3 h-3 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+              </svg>
+            </div>
+            <p id="pengeluaranTabungan" class="text-lg font-semibold text-rose-600">Rp. 0</p>
+          </div>
         </div>  
-        </div>
+      </div>
 
       <!-- Info Tambahan -->
       <div class="mt-4 p-3 bg-blue-50 rounded-xl">
