@@ -6,6 +6,34 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    /* Custom legend container */
+    #legend-container {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+      font-family: Arial, sans-serif;
+    }
+    /* Legend item style */
+    .legend-item {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    /* Color box */
+    .legend-color-box {
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
+      border-radius: 3px;
+    }
+    /* Hidden dataset style */
+    .legend-item.hidden {
+      opacity: 0.5;
+      text-decoration: line-through;
+    }
+  </style>
 </head>
 <body class="bg-gray-200 px-6 py-3 font-[Helvetica] font-sans text-gray-800">
 
@@ -74,6 +102,7 @@
   
       <div class="aspect-square relative w-full">
         <canvas id="pieChart"></canvas>
+          <div id="legend-container"></div>
       </div>
       <div class="flex justify-center -mt-2 mb-6">
         <button onclick="bukaHalamanRekap()" class="flex items-center mx-auto bg-sky-500 backdrop-blur-sm border border-sky-500 px-6 py-2 rounded-full shadow-sm text-white font-semibold text-sm hover:bg-white hover:text-sky-500 transition-all active:scale-95">
@@ -282,7 +311,7 @@
           </svg>
         </button>
       </div>
-
+<!-- Total Keseluruhan Tabungan -->
         <div class="text-center bg-white p-4 mb-2 border-b border-gray-300">
           <p class="text-sm text-gray-500 mb-1">Saldo Terakhir</p>
           <p id="tabunganKeseluruhan" class="text-2xl font-bold text-gray-900 mb-2">Rp. 0</p>
@@ -315,10 +344,7 @@
           <p id="pengeluaranTabungan" class="text-lg font-semibold text-rose-600">Rp. 0</p>
         </div>
         </div>  
-        <!-- Total Keseluruhan Tabungan -->
-        
-  
-      </div>
+        </div>
 
       <!-- Info Tambahan -->
       <div class="mt-4 p-3 bg-blue-50 rounded-xl">
@@ -590,7 +616,7 @@
           },
           plugins: {
             legend: {
-              display: true,
+              display: false,
               position: 'bottom',
               labels: {
                 boxWidth: 12,
@@ -931,6 +957,77 @@
 
       container.innerHTML = htmlContent;
     }
+
+    // Generate custom legend HTML
+    function createCustomLegend(chart) {
+      const legendContainer = document.getElementById('legend-container');
+      legendContainer.innerHTML = ''; // Clear old legend
+
+      chart.data.datasets.forEach((dataset, index) => {
+        const item = document.createElement('div');
+        item.classList.add('legend-item');
+        if (!chart.isDatasetVisible(index)) {
+          item.classList.add('hidden');
+        }
+
+        // Color box
+        const colorBox = document.createElement('span');
+        colorBox.classList.add('legend-color-box');
+        colorBox.style.backgroundColor = dataset.borderColor;
+
+        // Label
+        const label = document.createElement('span');
+        label.textContent = dataset.label;
+
+        // Click event to toggle dataset
+        item.onclick = () => {
+          chart.toggleDataVisibility(index);
+          chart.update();
+          createCustomLegend(chart); // Refresh legend state
+        };
+
+        item.appendChild(colorBox);
+        item.appendChild(label);
+        legendContainer.appendChild(item);
+      });
+    }
+
+       // Generate custom legend HTML
+    function createCustomLegend(chart) {
+      const legendContainer = document.getElementById('legend-container');
+      legendContainer.innerHTML = ''; // Clear old legend
+
+      chart.data.datasets.forEach((dataset, index) => {
+        const item = document.createElement('div');
+        item.classList.add('legend-item');
+        if (!chart.isDatasetVisible(index)) {
+          item.classList.add('hidden');
+        }
+
+        // Color box
+        const colorBox = document.createElement('span');
+        colorBox.classList.add('legend-color-box');
+        colorBox.style.backgroundColor = dataset.borderColor;
+
+        // Label
+        const label = document.createElement('span');
+        label.textContent = dataset.label;
+
+        // Click event to toggle dataset
+        item.onclick = () => {
+          chart.toggleDataVisibility(index);
+          chart.update();
+          createCustomLegend(chart); // Refresh legend state
+        };
+
+        item.appendChild(colorBox);
+        item.appendChild(label);
+        legendContainer.appendChild(item);
+      });
+    }
+
+    // Initial legend creation
+    createCustomLegend(chart);
   </script>
 </body>
 </html>
